@@ -44,12 +44,20 @@ if ( ! hec_elementor_location( $hec_is_single ? 'single' : 'archive' ) ) :
             woocommerce_breadcrumb();
             ?>
             <header class="page-header ecomx-shop-header">
-                <?php if ( is_search() ) : ?>
-                    <?php echo do_shortcode( '[hec_search_results_heading]' ); ?>
-                <?php else : ?>
-                    <h1 class="page-title"><?php woocommerce_page_title(); ?></h1>
-                    <?php do_action( 'woocommerce_archive_description' ); ?>
-                <?php endif; ?>
+                <div class="ecomx-shop-header__row">
+                    <div class="ecomx-shop-header__title">
+                        <?php if ( is_search() ) : ?>
+                            <?php echo do_shortcode( '[hec_search_results_heading]' ); ?>
+                        <?php else : ?>
+                            <h1 class="page-title"><?php woocommerce_page_title(); ?></h1>
+                        <?php endif; ?>
+                    </div>
+                    <?php // Mobile only: opens the filter drawer (same as the filter sidebar's own toggle). ?>
+                    <button type="button" class="ecomx-filter-btn" data-hec-filter-open aria-controls="hec-shop-filters" aria-label="Open filters">
+                        <svg viewBox="0 0 24 24" fill="none" width="22" height="22" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+                    </button>
+                </div>
+                <?php if ( ! is_search() ) do_action( 'woocommerce_archive_description' ); ?>
             </header>
             <?php woocommerce_output_all_notices(); ?>
             <div class="ecomx-shop-layout">

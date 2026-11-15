@@ -194,11 +194,36 @@ button:hover, .button:hover, input[type="submit"]:hover { background: var(--ecx-
 
 /* ---- Shop layout (theme default, used when no Elementor archive template) ---- */
 .ecomx-shop-header .page-title { margin-bottom: .25em; }
+.ecomx-shop-header__row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.ecomx-shop-header__title { min-width: 0; }
+.ecomx-filter-btn { display: none; }
+@media (max-width: 767px) {
+    .ecomx-shop-header { margin-bottom: 16px; }
+    .ecomx-shop-header .page-title,
+    .ecomx-shop-header .hec-search-heading-title { margin: 0; }
+    .ecomx-filter-btn {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        margin: 0;
+        padding: 0;
+        border-radius: var(--ecx-btn-radius);
+        background: var(--ecx-primary);
+        color: #fff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
+    }
+    /* The filter sidebar's own left-edge tab is replaced by the button above. */
+    .ecomx-shop-sidebar .hec-filter-toggle { display: none !important; }
+}
 .ecomx-shop-layout { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 32px; align-items: start; }
 .ecomx-shop-sidebar { position: sticky; top: 24px; }
 @media (max-width: 1024px) { .ecomx-shop-layout { grid-template-columns: 220px minmax(0, 1fr); gap: 20px; } }
 @media (max-width: 767px)  {
-    .ecomx-shop-layout { grid-template-columns: minmax(0, 1fr); }
+    .ecomx-shop-layout { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    .ecomx-shop-products .hec-product-grid { margin-top: 0; }
     .ecomx-shop-sidebar { position: static; }
 }
 .ecomx-single-product > * + * { margin-top: 40px; }

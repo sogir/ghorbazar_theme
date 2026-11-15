@@ -29,6 +29,10 @@
         }
 
         toggleBtn.addEventListener('click', openDrawer);
+        // Extra openers (e.g. the theme's filter button beside the shop title).
+        document.querySelectorAll('[data-hec-filter-open]').forEach(function (btn) {
+            btn.addEventListener('click', openDrawer);
+        });
 
         if (closeBtn) {
             closeBtn.addEventListener('click', closeDrawer);
