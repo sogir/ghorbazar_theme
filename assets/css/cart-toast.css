@@ -21,12 +21,12 @@
     border-radius: 14px;
     box-shadow: 0 18px 50px rgba(11, 90, 20, .28), 0 4px 12px rgba(0, 0, 0, .12);
     padding: 16px 16px 18px;
-    opacity: 0;
-    transform: translateY(24px) scale(.96);
 }
-.hec-cart-toast.is-visible { animation: hec-toast-in .45s cubic-bezier(.2, 1.4, .4, 1) forwards; }
+/* Visible by default; the entrance animation is decoration only, so the
+   popup still shows if a browser skips or pauses animations. */
+.hec-cart-toast.is-visible { animation: hec-toast-in .45s cubic-bezier(.2, 1.4, .4, 1) both; }
 .hec-cart-toast.is-leaving { animation: hec-toast-out .25s ease forwards; }
-@keyframes hec-toast-in  { to { opacity: 1; transform: none; } }
+@keyframes hec-toast-in  { from { opacity: 0; transform: translateY(24px) scale(.96); } to { opacity: 1; transform: none; } }
 @keyframes hec-toast-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(16px) scale(.97); } }
 
 /* Header: big check + "Added to cart!" */
@@ -166,7 +166,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .hec-cart-toast.is-visible { animation: none; opacity: 1; transform: none; }
+    .hec-cart-toast.is-visible { animation: none; }
     .hec-cart-toast-btn, .hec-cart-toast-icon { animation: none; }
 }
 
