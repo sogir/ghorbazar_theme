@@ -1,0 +1,287 @@
+/* ==========================================================================
+   Shop / Archive filters + pagination
+   ========================================================================== */
+
+.hec-shop-filters {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.hec-filter-drawer-header {
+    display: none; /* only shown inside the mobile slide-in drawer */
+}
+
+.hec-filter-group {
+    margin-bottom: 20px;
+}
+.hec-filter-group:last-of-type {
+    margin-bottom: 0;
+}
+
+.hec-filter-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.hec-filter-select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #fff;
+    color: #333;
+}
+
+/* Categories — plain navigation links to each category's real
+   archive page, styled to match the site rather than form checkboxes */
+.hec-filter-catlist {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.hec-filter-cat-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 9px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #444;
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+.hec-filter-cat-link:hover {
+    background: #f8f9fa;
+    color: var(--e-global-color-primary, #ff7a1a);
+}
+.hec-filter-cat-link.is-active {
+    background: var(--e-global-color-primary, #ff7a1a);
+    color: #fff;
+}
+.hec-filter-cat-link.is-active .hec-filter-count {
+    color: rgba(255, 255, 255, 0.8);
+}
+.hec-filter-count {
+    color: #999;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.hec-filter-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #444;
+    cursor: pointer;
+}
+.hec-filter-check input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--e-global-color-primary, #ff7a1a);
+    cursor: pointer;
+}
+
+/* Buttons — high-specificity + !important so nothing sitewide
+   (theme/Elementor default button resets) can override these */
+.hec-filter-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+.hec-shop-filters button.hec-filter-apply {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--e-global-color-primary, #ff7a1a) !important;
+    color: #fff !important;
+    border: 2px solid var(--e-global-color-primary, #ff7a1a) !important;
+    padding: 11px !important;
+    border-radius: var(--ecx-btn-radius, 6px) !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    cursor: pointer;
+    box-shadow: none !important;
+    transition: filter 0.2s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+    .hec-shop-filters button.hec-filter-apply:hover {
+        filter: brightness(0.92);
+        color: #fff !important;
+    }
+}
+.hec-shop-filters a.hec-filter-reset {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 18px !important;
+    background: transparent !important;
+    border: 2px solid var(--e-global-color-secondary, #ec1e63) !important;
+    border-radius: var(--ecx-btn-radius, 6px) !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: var(--e-global-color-secondary, #ec1e63) !important;
+    text-decoration: none !important;
+    white-space: nowrap;
+}
+@media (hover: hover) and (pointer: fine) {
+    .hec-shop-filters a.hec-filter-reset:hover {
+        background: var(--e-global-color-secondary, #ec1e63) !important;
+        color: #fff !important;
+    }
+}
+
+/* Empty state */
+.hec-shop-empty {
+    padding: 60px 20px;
+    text-align: center;
+    color: #777;
+    font-size: 15px;
+}
+
+/* Pagination */
+.hec-shop-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+.hec-shop-pagination .page-numbers {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    height: 38px;
+    padding: 0 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: var(--ecx-btn-radius, 6px);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: #444;
+}
+.hec-shop-pagination .page-numbers:hover {
+    border-color: var(--e-global-color-primary, #ff7a1a);
+    color: var(--e-global-color-primary, #ff7a1a);
+}
+.hec-shop-pagination .page-numbers.current {
+    background: var(--e-global-color-primary, #ff7a1a);
+    border-color: var(--e-global-color-primary, #ff7a1a);
+    color: #fff;
+}
+.hec-shop-pagination .page-numbers.dots {
+    border: none;
+}
+
+/* ------------------------------------------------------------------
+   Desktop: toggle tab, backdrop, drawer header/close are ALL
+   completely hidden — the filter panel just sits inline as normal.
+   !important guards against any sitewide button/display reset
+   winning the cascade and forcing this visible on desktop.
+   ------------------------------------------------------------------ */
+.hec-filter-toggle,
+.hec-filter-backdrop,
+.hec-filter-close {
+    display: none !important;
+}
+
+/* ------------------------------------------------------------------
+   Mobile: icon button sits in normal document flow, right where the
+   [hec_shop_filters] shortcode is placed — not floating over the
+   page. Tapping it slides the filter panel in as a drawer with a
+   backdrop, closable via the × button, backdrop tap, or Escape.
+   ------------------------------------------------------------------ */
+@media (max-width: 767px) {
+
+    .hec-filter-toggle {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        position: static;
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        margin: 0 0 14px;
+        background: var(--e-global-color-primary, #ff7a1a) !important;
+        color: #fff !important;
+        border: none !important;
+        border-radius: 0 50px 50px 0 !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+        cursor: pointer;
+    }
+
+    .hec-filter-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 1000;
+    }
+    .hec-filter-backdrop.is-open {
+        display: block !important;
+    }
+
+    .hec-shop-filters {
+        position: fixed;
+        top: 0;
+        left: -85%;
+        width: 85%;
+        max-width: 320px;
+        height: 100%;
+        border-radius: 0;
+        border: none;
+        overflow-y: auto;
+        z-index: 1001;
+        transition: left 0.25s ease;
+        padding: 0 16px 20px;
+    }
+    .hec-shop-filters.is-open {
+        left: 0;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .hec-filter-drawer-header {
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 0;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #eee;
+        font-weight: 700;
+        font-size: 15px;
+        color: #222;
+        position: sticky;
+        top: 0;
+        background: #fff;
+    }
+
+    /* Close button — matches the site's brand color instead of a
+       generic gray circle, with !important to beat any theme reset */
+    .hec-filter-drawer-header button.hec-filter-close {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 30px !important;
+        height: 30px !important;
+        border: none !important;
+        background: var(--e-global-color-secondary, #ec1e63) !important;
+        border-radius: 50% !important;
+        font-size: 18px !important;
+        line-height: 1 !important;
+        color: #fff !important;
+        cursor: pointer;
+        padding: 0 !important;
+        box-shadow: none !important;
+    }
+}

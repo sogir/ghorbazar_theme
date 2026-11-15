@@ -1,0 +1,676 @@
+/* ==========================================================================
+   Custom Checkout — Bengali COD flow: bordered cards, Name/Phone/Address,
+   delivery area, and a custom div-based order summary (no <table>, so
+   no inherited WordPress/WooCommerce default table styling).
+   ========================================================================== */
+
+.hec-checkout-wrap {
+    /* full available width — if this still looks capped, the
+       Elementor section/page wrapping the shortcode is probably set
+       to "Boxed" — switch that to "Full Width" in Elementor, CSS
+       alone can't break out of a boxed parent container. */
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.hec-checkout-form {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr; /* right (summary) column noticeably wider */
+    gap: 24px;
+    align-items: start; /* columns are NOT forced to equal height */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.hec-checkout-col-left,
+.hec-checkout-col-right {
+    min-width: 0;
+}
+
+.hec-checkout-col-left {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 22px;
+}
+
+/* ---------------- Instructions box ---------------- */
+.hec-checkout-instructions {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 14px;
+    line-height: 1.8;
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+.hec-checkout-instructions strong {
+    color: #1a9c4c;
+}
+.hec-checkout-instructions a {
+    color: var(--e-global-color-primary, #ff7a1a);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* ---------------- Form fields ---------------- */
+.hec-co-field {
+    margin-bottom: 18px;
+}
+.hec-co-field label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+.hec-co-field .required {
+    color: var(--e-global-color-secondary, #ec1e63);
+}
+.hec-co-field input[type="text"],
+.hec-co-field input[type="tel"],
+.hec-co-field input[type="email"],
+.hec-co-field textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #fff;
+    box-sizing: border-box;
+}
+.hec-co-field textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+.hec-co-field input:focus,
+.hec-co-field textarea:focus {
+    outline: none;
+    border-color: var(--e-global-color-primary, #ff7a1a);
+}
+
+/* ---------------- Delivery area ---------------- */
+.hec-co-delivery-wrap {
+    margin-bottom: 20px;
+}
+.hec-co-delivery-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+.hec-co-delivery-label span {
+    color: var(--e-global-color-secondary, #ec1e63);
+}
+.hec-co-delivery-options {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.hec-co-delivery-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 14px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    transition: background 0.15s ease;
+}
+.hec-co-delivery-option:hover {
+    background: #fafafa;
+}
+.hec-co-delivery-option:last-child {
+    border-bottom: none;
+}
+.hec-co-delivery-option input[type="radio"] {
+    display: none;
+}
+.hec-co-radio-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    flex-shrink: 0;
+    position: relative;
+    transition: border-color 0.15s ease;
+}
+.hec-co-delivery-option input[type="radio"]:checked + .hec-co-radio-dot {
+    border-color: var(--e-global-color-primary, #ff7a1a);
+}
+.hec-co-delivery-option input[type="radio"]:checked + .hec-co-radio-dot::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    background: var(--e-global-color-primary, #ff7a1a);
+}
+
+/* ---------------- Order button (left column) ----------------
+   Forced on every interactive state (base/hover/focus/active) — a
+   sitewide default button style otherwise wins the cascade on one of
+   those states even when the base rule looks correct. */
+.hec-co-order-btn-wrap {
+    margin-top: 6px;
+}
+#hec-co-place-order-btn.hec-co-order-btn,
+.hec-co-order-btn {
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    border: none !important;
+    padding: 16px !important;
+    border-radius: 8px !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    cursor: pointer;
+    outline: none !important;
+    box-shadow: none !important;
+    text-align: center !important;
+    margin: 0 !important;
+}
+#hec-co-place-order-btn.hec-co-order-btn,
+.hec-co-order-btn,
+.hec-co-order-btn:link,
+.hec-co-order-btn:visited,
+.hec-co-order-btn:hover,
+.hec-co-order-btn:focus,
+.hec-co-order-btn:active {
+    background: var(--e-global-color-primary, #ff7a1a) !important;
+    color: #fff !important;
+    text-decoration: none !important;
+}
+@media (hover: hover) and (pointer: fine) {
+    .hec-co-order-btn:hover {
+        filter: brightness(0.94);
+    }
+}
+.hec-co-order-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Real WooCommerce payment method list + the actual #place_order
+   button are fully removed from layout (our styled button triggers
+   the real one via JS, so it never needs to be seen). The Terms &
+   Conditions checkbox — if your store requires one — is rendered as
+   its own separate, always-visible element outside this wrapper, so
+   required consent can never be silently hidden. */
+.hec-co-payment-wrap {
+    display: none;
+}
+.hec-co-terms-visible {
+    margin: 14px 0 4px;
+    font-size: 13px;
+    color: #444;
+}
+
+/* ---------------- Right column: summary card ---------------- */
+.hec-co-summary-card {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 22px;
+}
+.hec-co-summary-title {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0 0 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #eee;
+    color: #222;
+}
+
+/* Coupon */
+.hec-co-coupon {
+    margin-bottom: 20px;
+}
+.hec-co-coupon-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--e-global-color-secondary, #ec1e63);
+    margin: 0 0 10px;
+}
+.hec-co-coupon-row {
+    display: flex;
+    gap: 8px;
+}
+.hec-co-coupon-row input {
+    flex: 1;
+    padding: 11px 14px;
+    border: 1px solid #ddd !important;
+    border-radius: 6px;
+    font-size: 14px;
+    box-shadow: none !important;
+    box-sizing: border-box;
+}
+.hec-co-coupon-row input:focus {
+    outline: none;
+    border-color: var(--e-global-color-primary, #ff7a1a) !important;
+}
+.hec-co-coupon-row button,
+.hec-co-coupon-row button:link,
+.hec-co-coupon-row button:visited,
+.hec-co-coupon-row button:hover,
+.hec-co-coupon-row button:focus,
+.hec-co-coupon-row button:active {
+    background: #28a745 !important;
+    color: #fff !important;
+    border: none !important;
+    outline: none !important;
+}
+.hec-co-coupon-row button {
+    padding: 0 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+@media (hover: hover) and (pointer: fine) {
+    .hec-co-coupon-row button:hover {
+        filter: brightness(0.94);
+    }
+}
+#hec-co-coupon-msg {
+    font-size: 12px;
+    margin-top: 8px;
+}
+#hec-co-coupon-msg.hec-co-msg-success { color: #1a9c4c; }
+#hec-co-coupon-msg.hec-co-msg-error { color: var(--e-global-color-secondary, #ec1e63); }
+
+/* ---------------- Order summary — div-based, not a <table> ----------------
+   Avoids any inherited default table/th/td styling from WordPress
+   core or WooCommerce entirely, since we control every rule here. */
+.hec-co-table {
+    width: 100%;
+    font-size: 13px;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.hec-co-thead {
+    display: grid;
+    grid-template-columns: 32px 1fr 84px 72px;
+    gap: 6px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #ececec;
+}
+.hec-co-th {
+    padding: 10px 6px;
+    font-weight: 700;
+    color: #444;
+    font-size: 12px;
+    text-align: center;
+}
+.hec-co-col-product { text-align: left !important; }
+.hec-co-col-price { text-align: right !important; }
+
+.hec-co-tbody {
+    display: flex;
+    flex-direction: column;
+}
+.hec-co-row {
+    display: grid;
+    grid-template-columns: 32px 1fr 84px 72px;
+    gap: 6px;
+    align-items: center;
+    border-bottom: 1px solid #f2f2f2;
+}
+.hec-co-tbody .hec-co-row:last-child {
+    border-bottom: none;
+}
+.hec-co-cell {
+    padding: 10px 6px;
+}
+
+.hec-co-col-del { text-align: center; }
+.hec-co-remove-btn,
+.hec-co-remove-btn:link,
+.hec-co-remove-btn:visited,
+.hec-co-remove-btn:hover,
+.hec-co-remove-btn:focus,
+.hec-co-remove-btn:active {
+    background: none !important;
+    border: none !important;
+    color: var(--e-global-color-secondary, #ec1e63) !important;
+    outline: none !important;
+}
+.hec-co-remove-btn {
+    cursor: pointer;
+    padding: 4px;
+    display: inline-flex;
+}
+@media (hover: hover) and (pointer: fine) {
+    .hec-co-remove-btn:hover {
+        filter: brightness(0.85);
+    }
+}
+
+.hec-co-prod-inner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.hec-co-prod-inner img {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+.hec-co-prod-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #222;
+    line-height: 1.4;
+}
+
+/* Quantity stepper — same pill/circle style as the product page's
+   quantity control, just with a thinner glyph weight and sized to
+   fit compactly in a table row. */
+.hec-co-col-qty { text-align: center; }
+.hec-co-qty-stepper {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 2px !important;
+    background: #f4f4f5 !important;
+    border-radius: 999px !important;
+    padding: 3px !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+.hec-co-qty-minus,
+.hec-co-qty-plus,
+.hec-co-qty-minus:link,
+.hec-co-qty-plus:link,
+.hec-co-qty-minus:visited,
+.hec-co-qty-plus:visited,
+.hec-co-qty-minus:focus,
+.hec-co-qty-plus:focus,
+.hec-co-qty-minus:active,
+.hec-co-qty-plus:active {
+    background: #fff !important;
+    color: #333 !important;
+    border: none !important;
+    outline: none !important;
+}
+.hec-co-qty-minus,
+.hec-co-qty-plus {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 50% !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08) !important;
+}
+@media (hover: hover) and (pointer: fine) {
+    .hec-co-qty-minus:hover,
+    .hec-co-qty-plus:hover {
+        background: var(--e-global-color-primary, #ff7a1a) !important;
+        color: #fff !important;
+    }
+}
+.hec-co-qty-val {
+    min-width: 18px;
+    text-align: center;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    color: #222 !important;
+    user-select: none;
+}
+
+.hec-co-col-price {
+    text-align: right;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Totals footer */
+.hec-co-tfoot {
+    padding: 4px 0;
+}
+.hec-co-total-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 12px;
+    font-size: 13px;
+}
+.hec-co-total-row:not(:last-child) {
+    border-bottom: 1px solid #f2f2f2;
+}
+.hec-co-discount-row {
+    color: #1a9c4c;
+}
+.hec-co-grand-total {
+    font-weight: 700;
+    font-size: 17px;
+    color: #222;
+    padding-top: 12px;
+}
+
+/* Disclaimer */
+.hec-co-disclaimer {
+    margin-top: 14px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 13px;
+    line-height: 1.8;
+    color: #333;
+}
+.hec-co-disclaimer a {
+    color: var(--e-global-color-primary, #ff7a1a);
+    font-weight: 700;
+}
+
+.hec-co-row.hec-co-updating {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Mobile-only duplicate order button after the disclaimer — hidden
+   on desktop, shown once the layout stacks to a single column */
+.hec-co-mobile-order-btn-wrap {
+    display: none;
+}
+@media (max-width: 900px) {
+    .hec-co-mobile-order-btn-wrap {
+        display: block;
+        margin-top: 16px;
+    }
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 900px) {
+    .hec-checkout-form {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 480px) {
+    .hec-co-table { font-size: 12px; }
+    .hec-co-thead,
+    .hec-co-row {
+        grid-template-columns: 28px 1fr 70px 60px;
+    }
+    .hec-co-prod-inner img { width: 32px; height: 32px; }
+}
+
+/* ==========================================================================
+   Thank You / Order Received page — same card language as checkout
+   ========================================================================== */
+.hec-thankyou-wrap {
+    display: flex;
+    justify-content: center;
+}
+.hec-thankyou-card {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 40px 32px;
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+}
+.hec-thankyou-icon {
+    color: #1a9c4c;
+    margin-bottom: 12px;
+}
+.hec-thankyou-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #222;
+    margin: 0 0 8px;
+}
+.hec-thankyou-sub {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 24px;
+    line-height: 1.7;
+}
+.hec-thankyou-sub strong {
+    color: var(--e-global-color-primary, #ff7a1a);
+}
+.hec-thankyou-items {
+    text-align: left;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 6px 14px;
+    margin-bottom: 4px;
+}
+.hec-thankyou-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f2f2f2;
+    font-size: 13px;
+}
+.hec-thankyou-item:last-child {
+    border-bottom: none;
+}
+.hec-thankyou-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+.hec-thankyou-item-name {
+    flex: 1;
+    color: #333;
+    font-weight: 600;
+}
+.hec-thankyou-item-price {
+    color: #222;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.hec-thankyou-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 4px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #222;
+    border-top: 1px solid #eee;
+    margin-bottom: 24px;
+}
+.hec-thankyou-btn,
+.hec-thankyou-btn:link,
+.hec-thankyou-btn:visited,
+.hec-thankyou-btn:hover,
+.hec-thankyou-btn:focus,
+.hec-thankyou-btn:active {
+    background: var(--e-global-color-primary, #ff7a1a) !important;
+    color: #fff !important;
+    text-decoration: none !important;
+}
+.hec-thankyou-btn {
+    display: inline-block;
+    padding: 13px 28px;
+    border-radius: var(--ecx-btn-radius, 6px);
+    font-weight: 700;
+    font-size: 14px;
+}
+@media (hover: hover) and (pointer: fine) {
+    .hec-thankyou-btn:hover {
+        filter: brightness(0.94);
+    }
+}
+
+/* ==========================================================================
+   Cart page — reuses .hec-co-summary-card, .hec-co-table, etc. from
+   checkout above; these are just the cart-page-specific extras.
+   ========================================================================== */
+.hec-cart-page-wrap {
+    display: flex;
+    justify-content: center;
+}
+.hec-cart-page-wrap .hec-co-summary-card {
+    max-width: 720px;
+    width: 100%;
+}
+.hec-cart-page-actions {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    text-align: center;
+}
+.hec-cart-page-actions .hec-co-order-btn {
+    max-width: 320px;
+    /* Belt-and-braces alongside the flex centering above — the base
+       .hec-co-order-btn rule forces margin: 0 !important (it's meant
+       to be a full-bleed button on checkout), so this needs its own
+       higher-specificity !important to actually win and center the
+       button once its width is capped below the container's. */
+    margin: 0 auto !important;
+}
+.hec-cart-continue-link {
+    font-size: 13px;
+    color: #666;
+    text-decoration: underline;
+}
+.hec-cart-continue-link:hover {
+    color: var(--e-global-color-primary, #ff7a1a);
+}
+
+.hec-cart-empty-card {
+    max-width: 380px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 40px 24px;
+}
+.hec-cart-empty-icon {
+    color: #ccc;
+    margin-bottom: 12px;
+}
+.hec-cart-empty-text {
+    font-size: 15px;
+    color: #666;
+    margin: 0 0 20px;
+}
+.hec-cart-empty-btn {
+    display: inline-block;
+    width: auto;
+    padding: 12px 28px;
+}

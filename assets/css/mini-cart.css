@@ -1,0 +1,255 @@
+/* ==========================================================================
+   Mini Cart Dropdown — [hec_mini_cart]
+   Desktop: icon + price + qty badge, opens on hover or click.
+   Mobile:  icon + qty badge only, opens on tap/click only.
+   ========================================================================== */
+
+.hec-mini-cart {
+    position: relative;
+    z-index: 200;
+    display: inline-block;
+}
+
+.hec-mini-cart-trigger:hover,
+.hec-mini-cart-trigger:focus {
+    color: var(--e-global-color-text, #222) !important;
+}
+
+.hec-mini-cart-trigger {
+    display: flex;
+    align-items: center  !important;
+    flex-wrap: nowrap  !important;
+    gap: 12px  !important;
+    background: none  !important;
+    border: none  !important;
+    cursor: pointer ;
+    padding: 4px  !important;
+    line-height: 1  !important;
+    color: var(--e-global-color-text, #222) !important;
+}
+
+.hec-mini-cart-icon-wrap {
+    position: relative;
+    display: inline-flex !important;
+    align-items: center  !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+}
+.hec-mini-cart-icon-wrap svg {
+    display: block !important;
+}
+
+.hec-mini-cart-count {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background: var(--e-global-color-primary, #ff7a1a) !important;
+    color: #fff !important;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+}
+
+.hec-mini-cart-price {
+    flex-shrink: 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--e-global-color-primary, #ff7a1a);
+    white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------
+   Dropdown panel
+   ------------------------------------------------------------------ */
+.hec-mini-cart-panel {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 320px;
+    max-width: 90vw;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14);
+    padding: 16px;
+    z-index: 99999;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+}
+
+/* Desktop: opens on hover */
+@media (hover: hover) and (pointer: fine) {
+    .hec-mini-cart:hover .hec-mini-cart-panel {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+}
+
+/* All devices: click-toggled open state (works alongside hover on
+   desktop, and is the only trigger on touch devices) */
+.hec-mini-cart-panel.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.hec-mini-cart-empty {
+    padding: 20px 0;
+    text-align: center;
+    color: #888;
+    font-size: 14px;
+}
+
+.hec-mini-cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 14px;
+}
+
+.hec-mini-cart-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+}
+
+.hec-mini-cart-thumb {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    overflow: hidden;
+    display: block;
+    background: #f8f9fa;
+}
+.hec-mini-cart-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hec-mini-cart-item-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.hec-mini-cart-item-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #222;
+    text-decoration: none;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.hec-mini-cart-item-name:hover {
+    color: var(--e-global-color-primary, #ff7a1a);
+}
+.hec-mini-cart-item-qty {
+    font-size: 12px;
+    color: #888;
+}
+
+.hec-mini-cart-item-price {
+    flex-shrink: 0;
+    font-size: 13px;
+    font-weight: 700;
+    color: #222;
+    white-space: nowrap;
+}
+
+.hec-mini-cart .hec-mini-cart-remove,
+.hec-mini-cart .hec-mini-cart-remove:link,
+.hec-mini-cart .hec-mini-cart-remove:visited,
+.hec-mini-cart .hec-mini-cart-remove:hover,
+.hec-mini-cart .hec-mini-cart-remove:active,
+.hec-mini-cart .hec-mini-cart-remove:focus {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 50% !important;
+    border: none !important;
+    background: var(--e-global-color-secondary, #ec1e63) !important;
+    color: #fff !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+}
+.hec-mini-cart-remove {
+    flex-shrink: 0;
+    cursor: pointer;
+}
+@media (hover: hover) and (pointer: fine) {
+    .hec-mini-cart .hec-mini-cart-remove:hover {
+        filter: brightness(0.9);
+    }
+}
+
+.hec-mini-cart-total {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: #222;
+    padding: 12px 0;
+    border-top: 1px solid #eee;
+    margin-bottom: 12px;
+}
+
+.hec-mini-cart-checkout:link,
+.hec-mini-cart-checkout:visited,
+.hec-mini-cart-checkout:hover,
+.hec-mini-cart-checkout:active,
+.hec-mini-cart-checkout:focus {
+    background: var(--e-global-color-primary, #ff7a1a) !important;
+    color: #fff !important;
+    text-decoration: none !important;
+}
+.hec-mini-cart-checkout {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 12px;
+    border-radius: 8px;
+}
+@media (hover: hover) and (pointer: fine) {
+    .hec-mini-cart-checkout:hover {
+        filter: brightness(0.92);
+    }
+}
+
+/* ------------------------------------------------------------------
+   Mobile: hide the price next to the icon, keep icon + qty badge only
+   ------------------------------------------------------------------ */
+@media (max-width: 767px) {
+    .hec-mini-cart-price {
+        display: none;
+    }
+    .hec-mini-cart-panel {
+        right: -10px;
+        width: 300px;
+    }
+}

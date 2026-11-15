@@ -1,0 +1,109 @@
+/* ==========================================================================
+   Brand layer — loaded after every component stylesheet.
+   Card + button look: light-green card, green border, orange "Order now"
+   above green "Add to cart", rounded-square buttons with a soft shadow.
+   Colours come from the tokens in theme.css (:root).
+   ========================================================================== */
+
+/* ---- Product card ---- */
+.hec-product-card {
+    background: var(--ecx-card-bg);
+    border: 1px solid var(--ecx-card-border);
+    border-radius: 10px;
+    padding: 8px;
+}
+.hec-product-card:hover {
+    border-color: var(--ecx-green);
+    box-shadow: 0 6px 18px rgba(11, 90, 20, .10);
+}
+.hec-product-image {
+    border-radius: 8px;
+    background: #fff;
+}
+.hec-product-info { padding: 10px 4px 8px; }
+.hec-product-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ecx-text);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.hec-product-name:hover { color: var(--ecx-brand); }
+
+.hec-product-price { color: var(--ecx-green); font-size: 17px; }
+.hec-product-price del { display: block; color: #8a8f8a; font-size: 13px; margin: 2px 0 0; }
+.hec-product-price ins { color: var(--ecx-green); }
+
+/* Discount badge: coral pill, top-left over the image */
+.hec-sale-badge {
+    top: 14px;
+    left: 14px;
+    right: auto;
+    background: var(--ecx-accent);
+    border-radius: 999px;
+    padding: 3px 9px;
+}
+
+/* ---- Card buttons: Order now (orange) on top, Add to cart (green) below ---- */
+.hec-product-actions { padding: 0 4px 4px; gap: 8px; }
+.hec-btn {
+    border-radius: var(--ecx-btn-radius);
+    padding: 10px 6px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .18);
+}
+.hec-btn-order {
+    order: -1;
+    background: var(--ecx-primary);
+    border-color: var(--ecx-primary);
+}
+.hec-btn-cart {
+    background: var(--ecx-green);
+    border-color: var(--ecx-green);
+}
+.hec-btn-cart.hec-btn-added {
+    background: #fff;
+    border-color: var(--ecx-green);
+    color: var(--ecx-green) !important;
+    box-shadow: none;
+}
+@media (hover: hover) and (pointer: fine) {
+    .hec-btn-cart.hec-btn-added:hover { background: var(--ecx-green); }
+}
+@media (max-width: 767px) {
+    .hec-product-card { padding: 6px; }
+    .hec-btn { font-size: 13px; padding: 9px 4px; }
+}
+
+/* ---- Single product: same colour roles as the cards ---- */
+.hec-pd-price { color: var(--ecx-green); }
+.hec-pd-actions .hec-pd-btn {
+    border-radius: var(--ecx-btn-radius);
+    text-transform: uppercase;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .18);
+}
+.hec-pd-actions .hec-pd-order-btn {
+    background: var(--ecx-primary);
+    border-color: var(--ecx-primary);
+}
+.hec-pd-actions .hec-pd-cart-btn {
+    background: var(--ecx-green);
+    border-color: var(--ecx-green);
+}
+.hec-pd-actions .hec-pd-cart-btn.hec-pd-btn-added {
+    background: #fff;
+    border-color: var(--ecx-green);
+    box-shadow: none;
+}
+.hec-pd-discount-pill { background: var(--ecx-accent); }
+
+/* ---- Headings in content pick up the logo green ---- */
+.entry-content h2, .entry-content .wp-block-heading, .page-title { color: var(--ecx-brand); }
+
+/* Call button on the product page: logo green instead of generic blue */
+.hec-pd-contact-btn.hec-pd-phone { background: var(--ecx-brand) !important; border-color: var(--ecx-brand) !important; }

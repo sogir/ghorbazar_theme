@@ -1,0 +1,5 @@
+# Per-site values never go in the repo (use Customize → Store Details
+# or wp-content/ecomx-config.php instead).
+config.php
+.DS_Store
+build/

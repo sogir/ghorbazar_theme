@@ -1,0 +1,242 @@
+/* ==========================================================================
+   Mobile bottom navigation bar — Categories / Home / Checkout.
+   Hidden entirely on desktop; fixed to the viewport bottom on mobile.
+   ========================================================================== */
+
+.hec-mnav {
+    display: none;
+}
+
+/* ------------------------------------------------------------------
+   Category drawer — same slide-from-left-with-backdrop interaction
+   as the shop page's mobile filter drawer, kept as its own markup
+   since this one is global (present on every page, not just shop).
+   ------------------------------------------------------------------ */
+.hec-catnav-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 1600;
+}
+.hec-catnav-backdrop.is-open {
+    display: block;
+}
+
+.hec-catnav-drawer {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: -85%;
+    width: 85%;
+    max-width: 320px;
+    height: 100%;
+    background: #fff;
+    overflow-y: auto;
+    z-index: 1601;
+    transition: left 0.25s ease;
+    padding: 0 16px 20px;
+    box-sizing: border-box;
+}
+
+.hec-catnav-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    font-weight: 700;
+    font-size: 15px;
+    color: #222;
+    position: sticky;
+    top: 0;
+    background: #fff;
+}
+
+.hec-catnav-close {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 30px !important;
+    height: 30px !important;
+    border: none !important;
+    background: var(--e-global-color-secondary, #ec1e63) !important;
+    border-radius: 50% !important;
+    font-size: 18px !important;
+    line-height: 1 !important;
+    color: #fff !important;
+    cursor: pointer;
+    padding: 0 !important;
+    box-shadow: none !important;
+}
+
+.hec-catnav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.hec-catnav-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #444;
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+.hec-catnav-link:hover {
+    background: #f8f9fa;
+    color: var(--e-global-color-primary, #ff7a1a);
+}
+.hec-catnav-link-main {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+.hec-catnav-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    object-fit: cover;
+    background: #f8f9fa;
+    flex-shrink: 0;
+}
+.hec-catnav-count {
+    color: #999;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+.hec-catnav-empty {
+    color: #888;
+    font-size: 14px;
+    padding: 20px 0;
+}
+
+/* ------------------------------------------------------------------
+   Mobile only
+   ------------------------------------------------------------------ */
+@media (max-width: 767px) {
+
+    .hec-mnav {
+        display: flex !important;
+        align-items: stretch;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1500;
+        background: #fff;
+        border-top: 1px solid #e5e5e5;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+        padding-bottom: env(safe-area-inset-bottom, 0);
+    }
+
+    .hec-mnav-item,
+    a.hec-mnav-item:link,
+    a.hec-mnav-item:visited {
+        flex: 1;
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        padding: 8px 4px 7px;
+        background: none !important;
+        border: none !important;
+        color: #666 !important;
+        font-family: inherit !important;
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        line-height: 1.2 !important;
+        text-decoration: none !important;
+        cursor: pointer;
+        box-shadow: none !important;
+    }
+
+    /* Belt-and-braces: the label span's size is guarded explicitly too,
+       in case any sitewide button/link typography rule targets spans
+       directly rather than just the button/anchor itself — that's
+       exactly what caused the Categories button's label to render at
+       a different size than the Home/Checkout links' labels. */
+    .hec-mnav-item > span:last-child {
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        line-height: 1.2 !important;
+    }
+
+    .hec-mnav-item svg {
+        display: block;
+        flex-shrink: 0;
+    }
+
+    .hec-mnav-item.is-active {
+        color: var(--e-global-color-primary, #ff7a1a) !important;
+    }
+
+    .hec-mnav-cart-icon-wrap {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .hec-mnav-cart-icon-wrap svg {
+        display: block;
+    }
+
+    /* Support item — its badge icon is deliberately oversized and
+       floats above the bar (FAB-style), so it's taken out of normal
+       flow (position: absolute) rather than sized like the other two
+       icons; otherwise its larger height would inflate the whole bar
+       (align-items: stretch sizes every item to the tallest one).
+       The item's own padding-top clears the icon's raised position
+       (see .hec-mnav-support-icon-wrap's top offset below) with a bit
+       of breathing room, so the "WhatsApp" label never sits underneath
+       the icon — it previously did, since the icon barely poked above
+       the bar and its bottom edge landed right on top of the label. */
+    .hec-mnav-support-item {
+        position: relative;
+        padding-top: 38px !important;
+        /* Anchored by padding, not centered — with the icon taken out
+           of flow, this item's only in-flow child is its label, and
+           justify-content: center (inherited from .hec-mnav-item)
+           would otherwise re-center that single child in the content
+           box instead of respecting the padding-top above. */
+        justify-content: flex-start !important;
+    }
+    .hec-mnav-support-icon-wrap {
+        position: absolute;
+        top: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
+    }
+    .hec-mnav-support-icon-wrap svg {
+        display: block;
+        width: 42px;
+        height: 42px;
+    }
+
+    .hec-catnav-drawer {
+        display: block;
+    }
+    .hec-catnav-drawer.is-open {
+        left: 0;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Leave room at the bottom of every page so the fixed bar never
+       covers the last bit of content */
+    body {
+        padding-bottom: 60px;
+    }
+}

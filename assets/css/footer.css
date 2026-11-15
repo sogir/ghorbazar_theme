@@ -1,0 +1,185 @@
+/* ==========================================================================
+   Footer — feature strip, four columns, bottom bar
+   ========================================================================== */
+
+.ecx-footer { margin-top: auto; color: #cfe3d1; font-size: 15px; }
+.ecx-footer a { color: inherit; }
+
+/* ---- Feature strip ---- */
+.ecx-footer-features {
+    background: var(--ecx-bg-soft);
+    border-top: 1px solid var(--ecx-border);
+    color: var(--ecx-text);
+}
+.ecx-footer-features__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    padding-top: 26px;
+    padding-bottom: 26px;
+}
+.ecx-feature { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.ecx-feature__icon {
+    flex: 0 0 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #fff;
+    border: 1px solid var(--ecx-card-border);
+    color: var(--ecx-primary);
+}
+.ecx-feature__icon .ecx-icon { width: 24px; height: 24px; }
+.ecx-feature__title { display: block; font-size: 15px; color: var(--ecx-brand); line-height: 1.3; }
+.ecx-feature__text { display: block; font-size: 13px; color: var(--ecx-muted); line-height: 1.4; }
+
+/* ---- Main ---- */
+.ecx-footer-main {
+    background:
+        radial-gradient(900px 300px at 0% 0%, rgba(46, 158, 58, .18), transparent 60%),
+        var(--ecx-brand-dark);
+    padding: 60px 0 48px;
+}
+.ecx-footer-cols {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+    gap: 56px;
+}
+.ecx-footer-title {
+    position: relative;
+    margin: 0 0 18px;
+    padding-bottom: 10px;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
+}
+.ecx-footer-title::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 32px;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--ecx-primary);
+}
+
+.ecx-footer-logo {
+    display: inline-flex;
+    padding: 10px 14px;
+    background: #fff;
+    border-radius: 12px;
+    margin-bottom: 16px;
+}
+.ecx-footer-logo img { height: 56px; width: auto; display: block; }
+.ecx-footer-logo__text { color: var(--ecx-brand); font-weight: 700; font-size: 20px; }
+.ecx-footer-about { margin: 0 0 20px; line-height: 1.6; max-width: 280px; color: #b7d1ba; }
+
+.ecx-social { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.ecx-social__link {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--ecx-btn-radius);
+    background: rgba(255, 255, 255, .1);
+    color: #fff !important;
+    transition: background .15s ease, transform .15s ease;
+}
+.ecx-social__link:hover { background: var(--ecx-primary); transform: translateY(-2px); }
+.ecx-social__link--whatsapp:hover { background: #25d366; }
+.ecx-social__link--messenger:hover { background: #0084ff; }
+
+.ecx-footer-links { list-style: none; margin: 0; padding: 0; }
+.ecx-footer-links li + li { margin-top: 12px; }
+.ecx-footer-links a {
+    color: #b7d1ba;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color .15s ease, transform .15s ease;
+}
+
+.ecx-footer-links a:hover { color: #fff; transform: translateX(3px); }
+
+.ecx-footer-contact { list-style: none; margin: 0; padding: 0; color: #b7d1ba; }
+.ecx-footer-contact li { display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+.ecx-footer-contact li + li { margin-top: 14px; }
+.ecx-footer-contact .ecx-icon { flex-shrink: 0; width: 18px; height: 18px; margin-top: 2px; color: var(--ecx-primary); }
+.ecx-footer-contact a:hover { color: #fff; }
+
+.ecx-footer-cta,
+.ecx-footer-cta:visited {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: var(--ecx-btn-radius);
+    background: #25d366;
+    color: #fff !important;
+    font-weight: 700;
+    font-size: 14px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .25);
+    transition: filter .15s ease;
+}
+.ecx-footer-cta:hover { filter: brightness(.93); }
+
+.ecx-footer-widgets { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; }
+.ecx-footer-widgets .widget-title { color: #fff; font-size: 17px; }
+.ecx-footer-widgets ul { list-style: none; padding: 0; }
+
+/* ---- Bottom bar ---- */
+.ecx-footer-bottom { background: #062f0a; font-size: 14px; }
+.ecx-footer-bottom__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+.ecx-footer-copy { margin: 0; color: #a9c7ad; }
+.ecx-footer-legal { display: flex; gap: 20px; margin-right: auto; margin-left: 28px; }
+.ecx-footer-legal a { color: #a9c7ad; }
+.ecx-footer-legal a:hover { color: #fff; }
+.ecx-footer-pay { display: flex; align-items: center; gap: 10px; }
+.ecx-footer-pay__label { color: #a9c7ad; }
+.ecx-pay-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border-radius: var(--ecx-btn-radius);
+    background: #fff;
+    color: var(--ecx-brand);
+    font-weight: 700;
+    font-size: 13px;
+}
+.ecx-pay-badge .ecx-icon { width: 18px; height: 18px; color: var(--ecx-primary); }
+
+/* ---- Responsive ---- */
+@media (max-width: 1024px) {
+    .ecx-footer-features__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .ecx-footer-cols { grid-template-columns: 1fr 1fr; gap: 36px 28px; }
+}
+@media (max-width: 767px) {
+    .ecx-footer-features__grid { gap: 14px 12px; padding-top: 20px; padding-bottom: 20px; }
+    .ecx-feature { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .ecx-feature__icon { flex-basis: auto; width: 40px; height: 40px; border-radius: 10px; }
+    .ecx-feature__icon .ecx-icon { width: 20px; height: 20px; }
+    .ecx-feature__title { font-size: 14px; }
+    .ecx-feature__text { font-size: 12px; }
+
+    .ecx-footer-main { padding: 40px 0 32px; }
+    .ecx-footer-cols { gap: 34px 20px; }
+    .ecx-footer-brand { grid-column: 1 / -1; }
+    .ecx-footer-col:last-child { grid-column: 1 / -1; }
+    .ecx-footer-logo img { height: 48px; }
+
+    .ecx-footer-bottom { padding-bottom: 72px; } /* room for the mobile bottom nav */
+    .ecx-footer-bottom__inner { flex-direction: column; text-align: center; gap: 10px; }
+    .ecx-footer-legal { margin: 0; justify-content: center; }
+}

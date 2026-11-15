@@ -1,0 +1,244 @@
+/* ==========================================================================
+   Product Loop / Card
+   Colors reference Elementor Global Colors (--e-global-color-primary /
+   --e-global-color-secondary) so they update automatically when you
+   change brand colors in Site Settings — no separate edit needed here.
+   ========================================================================== */
+
+.hec-product-grid {
+    --hec-grid-columns: 4;
+    display: grid;
+    grid-template-columns: repeat(var(--hec-grid-columns), 1fr);
+    gap: var(--gap-md, 16px);
+    margin: 20px 0;
+}
+
+.hec-product-card {
+    position: relative;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+.hec-product-card:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+    transform: translateY(-1px);
+  
+    border: 1px solid var(--e-global-color-primary, #007bff);
+}
+
+/* Discount badge — top right corner, e.g. 20% */
+.hec-sale-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    background: var(--e-global-color-primary, #007bff);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    line-height: 1.3;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.hec-product-image {
+    display: block;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #f8f9fa;
+}
+.hec-product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+.hec-product-card:hover .hec-product-image img {
+    transform: scale(1.05);
+}
+
+.hec-product-info {
+    padding: 12px;
+    flex: 1;
+}
+
+.hec-product-name {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #222;
+    text-decoration: none;
+    margin-bottom: 6px;
+    line-height: 1.4;
+}
+.hec-product-name:hover {
+    color: var(--e-global-color-primary, #007bff);
+}
+
+.hec-product-price {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--e-global-color-primary, #007bff);
+}
+.hec-product-price del {
+    color: #999;
+    font-weight: 400;
+    font-size: 13px;
+    margin-right: 6px;
+}
+.hec-product-price ins {
+    text-decoration: none;
+}
+
+/* Two buttons stacked vertically: Add to cart / Order now */
+.hec-product-actions {
+    padding: 0 12px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.hec-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+    padding: 8px 6px;
+    border-radius: var(--ecx-btn-radius, 6px);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: filter 0.2s ease, background 0.2s ease, color 0.2s ease;
+    line-height: 1.3;
+}
+
+/* Add to cart — secondary color, filled */
+.hec-btn-cart {
+    background: var(--e-global-color-secondary, #ff6b35);
+    border-color: var(--e-global-color-secondary, #ff6b35);
+    color: #fff;
+}
+
+/* Order now — primary color, filled */
+.hec-btn-order {
+    background: var(--e-global-color-primary, #007bff);
+    border-color: var(--e-global-color-primary, #007bff);
+    color: #fff;
+}
+
+
+/* Success state — after successful add to cart:
+   Added to cart ✓, outline style instead of filled, text uses the
+   secondary brand color. This must never be overridden by the
+   white-text link-state rules below — enforced via :not(.hec-btn-added)
+   on every one of those selectors, so specificity/order can't cause
+   the white-text rule to win here regardless of focus state. */
+.hec-btn-cart.hec-btn-added {
+    background: transparent;
+    border-color: var(--e-global-color-secondary, #ff6b35);
+    color: var(--e-global-color-secondary, #ff6b35) !important;
+}
+
+.hec-btn-check {
+    display: inline-flex;
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+/* Hide WooCommerce's default "View cart" text link that appears
+   after add-to-cart — our button's own success state replaces it */
+.hec-product-actions .added_to_cart {
+    display: none;
+}
+
+/* WooCommerce core automatically toggles a "loading" class on the
+   button during the AJAX add-to-cart request */
+.hec-btn.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Force white text on every normal (non-success-state) link state —
+   link, visited, hover, active, focus. :visited matters because these
+   are real <a href> elements; browsers apply a default visited color
+   otherwise. :not(.hec-btn-added) ensures this NEVER touches the
+   colored outline success state above, no matter the cascade order. */
+.hec-btn:link:not(.hec-btn-added),
+.hec-btn:visited:not(.hec-btn-added),
+.hec-btn:hover:not(.hec-btn-added),
+.hec-btn:active:not(.hec-btn-added),
+.hec-btn:focus:not(.hec-btn-added) {
+    color: #fff !important;
+}
+
+.hec-btn:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .hec-btn:hover:not(.hec-btn-added),
+    .hec-btn:active:not(.hec-btn-added) {
+        filter: brightness(0.9);
+    }
+
+    .hec-btn-cart.hec-btn-added:hover {
+        filter: none;
+        background: var(--e-global-color-secondary, #ff6b35);
+        color: #fff !important;
+    }
+}
+
+@media (hover: none) {
+    .hec-btn:active:not(.hec-btn-added) {
+        filter: brightness(0.85);
+    }
+}
+
+/* ------------------------------------------------------------------
+   Responsive columns
+   ------------------------------------------------------------------ */
+@media (max-width: 1024px) {
+    .hec-product-grid { grid-template-columns: repeat(3, 1fr) !important; }
+}
+@media (max-width: 880px) {
+    .hec-product-grid { grid-template-columns: repeat(3, 1fr) !important; }
+}
+@media (max-width: 767px) {
+    .hec-product-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .hec-product-name { font-size: 13px; }
+    .hec-btn { font-size: 12px; padding: 8px 4px; }
+}
+
+/* ==========================================================================
+   Free delivery badge — shared between product loop cards and the
+   single product page. Shown for products with the "free-delivery"
+   shipping class assigned.
+   ========================================================================== */
+.hec-free-delivery-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #e8f8ee;
+    color: #1a9c4c;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+    margin-top: 6px;
+    line-height: 1.4;
+}
+.hec-free-delivery-badge svg {
+    flex-shrink: 0;
+}

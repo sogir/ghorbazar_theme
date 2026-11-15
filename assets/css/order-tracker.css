@@ -1,0 +1,238 @@
+/* ==========================================================================
+   Phone Order Tracker — [hec_order_tracker]
+   Same card/button language as checkout, cart and thank-you.
+   ========================================================================== */
+
+.hec-ot-wrap {
+    max-width: 480px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+.hec-ot-wrap *,
+.hec-ot-wrap *::before,
+.hec-ot-wrap *::after {
+    box-sizing: border-box;
+}
+
+.hec-ot-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.hec-ot-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #222;
+    margin: 0 0 6px;
+}
+.hec-ot-sub {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ---------------- Form card ---------------- */
+.hec-ot-form {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 20px;
+}
+.hec-ot-field {
+    margin-bottom: 14px;
+}
+.hec-ot-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+.hec-ot-input {
+    width: 100% !important;
+    padding: 12px 14px !important;
+    border: 1px solid #ddd !important;
+    border-radius: 8px !important;
+    font-size: 15px !important;
+    color: #222 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+}
+.hec-ot-input:focus {
+    outline: none !important;
+    border-color: var(--e-global-color-primary, #ff7a1a) !important;
+}
+.hec-ot-error {
+    font-size: 13px;
+    color: var(--e-global-color-secondary, #ec1e63);
+    margin: 0 0 14px;
+}
+
+.hec-ot-submit,
+.hec-ot-submit:link,
+.hec-ot-submit:visited,
+.hec-ot-submit:hover,
+.hec-ot-submit:focus,
+.hec-ot-submit:active {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    padding: 13px !important;
+    border: none !important;
+    border-radius: var(--ecx-btn-radius, 6px) !important;
+    background: var(--e-global-color-primary, #ff7a1a) !important;
+    color: #fff !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    cursor: pointer;
+    box-shadow: none !important;
+}
+@media (hover: hover) and (pointer: fine) {
+    .hec-ot-submit:hover {
+        filter: brightness(0.94);
+    }
+}
+
+.hec-ot-secure {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 12.5px;
+    color: #999;
+    margin: 12px 0 0;
+}
+
+/* ---------------- Results ---------------- */
+.hec-ot-result-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f8f9fa;
+    border: 1px solid #e5e5e5;
+    border-bottom: none;
+    border-radius: 12px 12px 0 0;
+    padding: 14px 16px;
+    margin-top: 28px;
+    color: #555;
+}
+.hec-ot-result-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+.hec-ot-result-count {
+    margin-left: auto;
+    background: var(--e-global-color-primary, #ff7a1a);
+    color: #fff;
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 3px 11px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.hec-ot-orders {
+    border: 1px solid #e5e5e5;
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    overflow: hidden;
+    background: #fff;
+}
+.hec-ot-order {
+    padding: 14px 16px;
+    border-bottom: 1px solid #eee;
+}
+.hec-ot-order:last-child {
+    border-bottom: none;
+}
+.hec-ot-order-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+.hec-ot-order-id {
+    font-size: 14px;
+    font-weight: 700;
+    color: #222;
+}
+
+.hec-ot-badge {
+    flex-shrink: 0;
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+}
+.hec-ot-badge-completed  { background: #1a9c4c; color: #fff; }
+.hec-ot-badge-processing,
+.hec-ot-badge-shipped    { background: var(--e-global-color-primary, #ff7a1a); color: #fff; }
+.hec-ot-badge-pending,
+.hec-ot-badge-on-hold    { background: #f0f0f0; color: #555; }
+.hec-ot-badge-cancelled,
+.hec-ot-badge-failed     { background: #fdeaf0; color: var(--e-global-color-secondary, #ec1e63); }
+.hec-ot-badge-refunded   { background: #f0f0f0; color: #888; }
+
+.hec-ot-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 6px;
+}
+.hec-ot-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12.5px;
+    color: #666;
+}
+.hec-ot-meta-item svg {
+    color: #999;
+    flex-shrink: 0;
+}
+
+.hec-ot-products {
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+    font-size: 12.5px;
+    color: #888;
+    line-height: 1.6;
+}
+.hec-ot-products svg {
+    color: #aaa;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+/* Empty state */
+.hec-ot-empty {
+    margin-top: 28px;
+    padding: 34px 20px;
+    text-align: center;
+    background: #fafafa;
+    border: 1.5px dashed #ddd;
+    border-radius: 12px;
+    color: #ccc;
+}
+.hec-ot-empty svg {
+    margin-bottom: 10px;
+}
+.hec-ot-empty p {
+    font-size: 13.5px;
+    color: #888;
+    line-height: 1.8;
+    margin: 0;
+}
+.hec-ot-empty strong {
+    color: #555;
+    font-weight: 600;
+}

@@ -1,0 +1,200 @@
+/* ==========================================================================
+   Ecomx Bookshop — base theme styles
+   Reset, layout, header/footer, posts, WooCommerce basics.
+   Feature styles (product loop, checkout, …) live in their own files.
+   ========================================================================== */
+
+:root {
+    /* Brand — Ghor Bazar BD (logo green + orange). Change here to rebrand. */
+    --ecx-primary: #f07400;        /* orange: main CTA (Order now), links */
+    --ecx-primary-dark: #d66600;
+    --ecx-green: #2e9e3a;          /* button green: Add to cart, prices */
+    --ecx-green-dark: #258430;
+    --ecx-brand: #0b5a14;          /* logo dark green: headings, footer */
+    --ecx-brand-dark: #083f0e;
+    --ecx-accent: #ef4b4b;         /* sale / discount badge */
+    --ecx-success: #2e9e3a;
+    --ecx-text: #1f2328;
+    --ecx-muted: #6b7280;
+    --ecx-border: #e3e8e3;
+    --ecx-bg: #ffffff;
+    --ecx-bg-soft: #f4faf4;
+    --ecx-card-bg: #f1f9f1;
+    --ecx-card-border: #8fcf8f;
+    --ecx-radius: 8px;
+    --ecx-btn-radius: 6px;         /* rounded-square buttons */
+    --ecx-container: 1240px;
+    /* Elementor global colour vars used by the component CSS. Elementor's kit
+       CSS sets the same values on Elementor pages; this covers the rest. */
+    --e-global-color-primary: var(--ecx-primary);
+    --e-global-color-secondary: var(--ecx-green);
+    --e-global-color-text: var(--ecx-text);
+    --e-global-color-accent: var(--ecx-brand);
+    --ecx-font: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ---- Reset ---- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; line-height: 1.15; }
+body {
+    margin: 0;
+    font-family: var(--ecx-font);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ecx-text);
+    background: var(--ecx-bg);
+    -webkit-font-smoothing: antialiased;
+}
+img, svg, video { max-width: 100%; height: auto; vertical-align: middle; }
+h1, h2, h3, h4, h5, h6 { margin: 0 0 .5em; line-height: 1.25; font-weight: 700; }
+h1 { font-size: 2rem; } h2 { font-size: 1.6rem; } h3 { font-size: 1.3rem; }
+p { margin: 0 0 1em; }
+a { color: var(--ecx-primary); text-decoration: none; }
+a:hover, a:focus { color: var(--ecx-primary-dark); }
+ul, ol { padding-left: 1.25em; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 1.5em; }
+th, td { padding: .6em; border-bottom: 1px solid var(--ecx-border); text-align: left; }
+hr { border: 0; border-top: 1px solid var(--ecx-border); margin: 2em 0; }
+
+input[type="text"], input[type="email"], input[type="tel"], input[type="url"],
+input[type="password"], input[type="search"], input[type="number"], select, textarea {
+    width: 100%;
+    padding: .6em .8em;
+    font: inherit;
+    color: inherit;
+    background: #fff;
+    border: 1px solid var(--ecx-border);
+    border-radius: var(--ecx-radius);
+}
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--ecx-primary); outline-offset: 1px; border-color: transparent; }
+
+button, .button, input[type="submit"], input[type="button"] {
+    display: inline-block;
+    padding: .65em 1.4em;
+    font: inherit;
+    font-weight: 600;
+    color: #fff;
+    background: var(--ecx-primary);
+    border: 0;
+    border-radius: var(--ecx-btn-radius);
+    cursor: pointer;
+    transition: background .15s ease;
+}
+button:hover, .button:hover, input[type="submit"]:hover { background: var(--ecx-primary-dark); color: #fff; }
+
+.screen-reader-text {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap;
+}
+.skip-link:focus {
+    clip: auto; width: auto; height: auto;
+    top: 8px; left: 8px; z-index: 100000;
+    padding: 10px 16px; background: #fff; color: var(--ecx-text);
+}
+
+/* ---- Layout ---- */
+.container { width: 100%; max-width: var(--ecx-container); margin: 0 auto; padding: 0 16px; }
+.site { min-height: 100vh; display: flex; flex-direction: column; }
+.site-content { flex: 1 0 auto; }
+.site-main.container { padding-top: 32px; padding-bottom: 48px; }
+.site-main--full { width: 100%; }
+.alignwide { max-width: calc(var(--ecx-container) + 160px); margin-left: auto; margin-right: auto; }
+.alignfull { width: 100vw; max-width: 100vw; margin-left: calc(50% - 50vw); }
+
+/* ---- Header ---- */
+.site-header { background: #fff; border-bottom: 1px solid var(--ecx-border); position: relative; z-index: 50; }
+/* Desktop: logo | search (centered) | actions — equal side columns keep the search truly centered. */
+.site-header__bar { display: grid; grid-template-columns: 1fr minmax(0, 640px) 1fr; align-items: center; gap: 24px; min-height: 72px; }
+.site-header__bar > .site-header__toggle { display: none; }
+.site-branding { justify-self: start; }
+.site-branding { flex: 0 0 auto; }
+.site-branding img { max-height: 56px; width: auto; }
+.site-title { font-size: 1.5rem; font-weight: 700; color: var(--ecx-brand); }
+.site-header__search { width: 100%; }
+.site-header__actions { display: flex; align-items: center; gap: 16px; justify-self: end; }
+.site-header__account { color: var(--ecx-text); display: inline-flex; }
+.site-header__toggle { display: none; background: none; padding: 8px; color: var(--ecx-text); }
+.site-header__toggle:hover { background: none; color: var(--ecx-primary); }
+.site-header__toggle-icon, .site-header__toggle-icon::before, .site-header__toggle-icon::after {
+    display: block; width: 22px; height: 2px; background: currentColor; position: relative; content: "";
+}
+.site-header__toggle-icon::before { position: absolute; top: -7px; }
+.site-header__toggle-icon::after  { position: absolute; top: 7px; }
+
+.site-nav { background: var(--ecx-bg-soft); border-top: 1px solid var(--ecx-border); }
+.site-nav__menu { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 24px; }
+.site-nav__menu a { display: block; padding: 12px 0; color: var(--ecx-text); font-weight: 600; }
+.site-nav__menu a:hover, .site-nav__menu .current-menu-item > a { color: var(--ecx-brand); }
+.site-nav__menu li { position: relative; }
+.site-nav__menu .sub-menu {
+    display: none; position: absolute; top: 100%; left: 0; min-width: 220px;
+    list-style: none; margin: 0; padding: 8px 0; background: #fff;
+    border: 1px solid var(--ecx-border); border-radius: var(--ecx-radius); box-shadow: 0 8px 24px rgba(0,0,0,.08);
+}
+.site-nav__menu .sub-menu a { padding: 8px 16px; font-weight: 500; }
+.site-nav__menu li:hover > .sub-menu, .site-nav__menu li:focus-within > .sub-menu { display: block; }
+
+@media (max-width: 767px) {
+    .site-header__bar { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 10px; padding-bottom: 10px; min-height: 0; }
+    .site-header__bar > .site-header__toggle { display: inline-flex; }
+    .site-header__actions { margin-left: auto; }
+    .site-header__search { order: 10; flex-basis: 100%; max-width: none; }
+    .site-nav { display: none; }
+    .site-nav.is-open { display: block; }
+    .site-nav__menu { flex-direction: column; gap: 0; }
+    .site-nav__menu a { padding: 10px 0; border-bottom: 1px solid var(--ecx-border); }
+    .site-nav__menu .sub-menu { display: block; position: static; border: 0; box-shadow: none; padding-left: 16px; background: transparent; }
+}
+
+/* ---- Footer: see assets/css/footer.css ---- */
+
+/* ---- Posts ---- */
+.page-header { margin-bottom: 28px; }
+.entry-header { margin-bottom: 24px; }
+.entry-meta { color: var(--ecx-muted); font-size: .9rem; }
+.entry-thumbnail { margin-bottom: 24px; }
+.entry-thumbnail img { border-radius: var(--ecx-radius); }
+.entry-content > * + * { margin-top: 0; }
+.entry-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+.entry-card { border: 1px solid var(--ecx-border); border-radius: var(--ecx-radius); overflow: hidden; background: #fff; }
+.entry-card__thumb img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.entry-card__body { padding: 16px; }
+.entry-card__title { font-size: 1.15rem; }
+.entry-card__title a { color: var(--ecx-text); }
+.nav-links { display: flex; gap: 8px; margin-top: 32px; flex-wrap: wrap; }
+.nav-links .page-numbers { padding: 6px 12px; border: 1px solid var(--ecx-border); border-radius: var(--ecx-btn-radius); color: var(--ecx-text); }
+.nav-links .page-numbers.current { background: var(--ecx-primary); border-color: var(--ecx-primary); color: #fff; }
+.comment-list { list-style: none; padding: 0; }
+.comment-list .comment-body { padding: 16px 0; border-bottom: 1px solid var(--ecx-border); }
+.search-form { display: flex; gap: 8px; }
+.wp-caption-text, figcaption { color: var(--ecx-muted); font-size: .875rem; }
+
+/* ---- WooCommerce basics ---- */
+.woocommerce-main .woocommerce-breadcrumb { font-size: .9rem; color: var(--ecx-muted); margin-bottom: 20px; }
+.woocommerce .woocommerce-message, .woocommerce .woocommerce-info, .woocommerce .woocommerce-error {
+    border-top-color: var(--ecx-primary);
+}
+.woocommerce .woocommerce-message::before, .woocommerce .woocommerce-info::before { color: var(--ecx-primary); }
+.woocommerce a.button, .woocommerce button.button, .woocommerce input.button,
+.woocommerce a.button.alt, .woocommerce button.button.alt {
+    background: var(--ecx-primary); color: #fff; border-radius: var(--ecx-radius);
+}
+.woocommerce a.button:hover, .woocommerce button.button:hover,
+.woocommerce a.button.alt:hover, .woocommerce button.button.alt:hover { background: var(--ecx-primary-dark); color: #fff; }
+.woocommerce span.onsale { background: var(--ecx-accent); border-radius: 999px; }
+.woocommerce ul.products li.product .price, .woocommerce div.product p.price { color: var(--ecx-green); }
+.woocommerce a.button, .woocommerce button.button, .woocommerce input.button { border-radius: var(--ecx-btn-radius) !important; }
+
+/* ---- Shop layout (theme default, used when no Elementor archive template) ---- */
+.ecomx-shop-header .page-title { margin-bottom: .25em; }
+.ecomx-shop-layout { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 32px; align-items: start; }
+.ecomx-shop-sidebar { position: sticky; top: 24px; }
+@media (max-width: 1024px) { .ecomx-shop-layout { grid-template-columns: 220px minmax(0, 1fr); gap: 20px; } }
+@media (max-width: 767px)  {
+    .ecomx-shop-layout { grid-template-columns: minmax(0, 1fr); }
+    .ecomx-shop-sidebar { position: static; }
+}
+.ecomx-single-product > * + * { margin-top: 40px; }

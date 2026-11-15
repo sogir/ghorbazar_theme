@@ -1,0 +1,447 @@
+/* ==========================================================================
+   Single Product Details — [hec_product_details]
+   ========================================================================== */
+
+.hec-product-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    width: 100%;
+    align-items: start;
+}
+
+/* ---------------- Gallery card ---------------- */
+.hec-pd-gallery-card {
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 16px;
+    background: #fff;
+    overflow: hidden;
+}
+
+.hec-pd-gallery {
+    position: relative;
+    overflow: hidden;
+}
+
+/* (discount badge moved next to the price row — see .hec-pd-price-row
+   / .hec-pd-discount-pill further down — no longer overlaid on the
+   gallery image) */
+
+/* Slider: touch-swipe on mobile (native, via overflow-x + scroll-snap).
+   On desktop, dragging is disabled — arrows control navigation instead. */
+.hec-pd-slider {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    background: #f8f9fa;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+.hec-pd-slider::-webkit-scrollbar {
+    display: none;
+}
+.hec-pd-slide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+/* !important throughout: on taller/portrait product photos, a
+   sitewide "img { height: auto }" reset (WordPress/Elementor both
+   ship one) otherwise wins over the plain height:100% below, letting
+   the image grow past this square box instead of being contained
+   inside it — which is what made tall images spill downward into
+   whatever section follows the gallery. */
+.hec-pd-slide img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    pointer-events: none;
+    -webkit-user-drag: none;
+    user-select: none;
+}
+
+/* Desktop-only arrow buttons — plain white icon, no background/circle.
+   A drop-shadow keeps it visible against light-colored product photos
+   without needing a filled backdrop. */
+.hec-pd-arrow {
+    display: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 4;
+    width: 40px;
+    height: 40px;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #fff !important;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.65));
+    opacity: 0.9;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.hec-pd-arrow svg {
+    width: 26px;
+    height: 26px;
+}
+.hec-pd-arrow:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+}
+.hec-pd-arrow-prev { left: 4px; }
+.hec-pd-arrow-next { right: 4px; }
+
+/* Swiping disabled on desktop pointers — arrows only there */
+@media (hover: hover) and (pointer: fine) {
+    .hec-pd-arrow {
+        display: flex;
+    }
+    .hec-pd-slider {
+        scroll-snap-type: none;
+        overflow-x: hidden;
+    }
+}
+
+.hec-pd-thumbs {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    overflow-x: auto;
+}
+.hec-pd-thumb {
+    width: 64px !important;
+    height: 64px !important;
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden !important;
+    border: 2px solid transparent;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: border-color 0.2s ease, opacity 0.2s ease;
+}
+.hec-pd-thumb img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+}
+.hec-pd-thumb:hover,
+.hec-pd-thumb.is-active {
+    border-color: var(--e-global-color-primary, #ff7a1a);
+    opacity: 1;
+}
+
+/* ---------------- Info card ---------------- */
+.hec-pd-info-card {
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 22px;
+    background: #fff;
+}
+
+.hec-pd-breadcrumb {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 10px;
+}
+.hec-pd-breadcrumb a {
+    color: #888;
+    text-decoration: none;
+}
+.hec-pd-breadcrumb a:hover {
+    color: var(--e-global-color-primary, #ff7a1a);
+}
+
+.hec-pd-title {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.35;
+    margin: 0 0 12px;
+    color: var(--e-global-color-text, #222);
+}
+
+.hec-pd-price-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.hec-pd-price {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--e-global-color-primary, #ff7a1a);
+    margin-bottom: 0;
+}
+.hec-pd-price del {
+    color: #999;
+    font-weight: 400;
+    font-size: 16px;
+    margin-right: 8px;
+}
+.hec-pd-price ins {
+    text-decoration: none;
+}
+
+.hec-pd-discount-pill {
+    display: inline-flex;
+    align-items: center;
+    background: var(--e-global-color-secondary, #ec1e63);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 999px;
+    line-height: 1.3;
+}
+
+/* The shared badge normally sits stacked under a loop card's price
+   (margin-top: 6px there) — inline in this price row, it should sit
+   flush with the price/discount pill instead. */
+.hec-pd-price-row .hec-free-delivery-badge {
+    margin-top: 0;
+}
+
+/* Product code — flag/ribbon tag shape with an inward-pointing
+   (concave) notch cut into the right edge, matching the reference */
+.hec-pd-sku {
+    display: inline-flex;
+    align-items: center;
+    background: var(--e-global-color-primary, #ff7a1a);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 30px 8px 14px;
+    margin-bottom: 16px;
+    clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 50%, 100% 100%, 0 100%);
+}
+
+/* Quantity — plain text +/- glyphs, forced styling beats any
+   theme/Elementor global button reset via high-specificity + !important */
+.hec-pd-qty-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+.hec-pd-qty-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+.hec-pd-qty-control {
+    display: flex !important;
+    align-items: center !important;
+    background: #f4f4f5 !important;
+    border-radius: 999px !important;
+    padding: 4px !important;
+    gap: 2px !important;
+}
+.hec-pd-qty-control button.hec-pd-qty-minus,
+.hec-pd-qty-control button.hec-pd-qty-plus {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 50% !important;
+    border: none !important;
+    background: #fff !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    cursor: pointer;
+    color: #333 !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+.hec-pd-qty-control button.hec-pd-qty-minus:hover,
+.hec-pd-qty-control button.hec-pd-qty-plus:hover {
+    background: var(--e-global-color-primary, #ff7a1a) !important;
+    color: #fff !important;
+}
+.hec-pd-qty-value {
+    min-width: 32px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: #222;
+    user-select: none;
+}
+
+/* Order / Cart — always side by side.
+   These rules are entirely self-contained: no class here is shared
+   with product-loop.css, so nothing in that file can ever affect
+   (or be affected by) these buttons again. */
+.hec-pd-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.hec-pd-actions .hec-pd-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 8px;
+    font-size: 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: filter 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.hec-pd-actions .hec-pd-order-btn {
+    background: var(--e-global-color-secondary, #ec1e63);
+    border-color: var(--e-global-color-secondary, #ec1e63);
+}
+.hec-pd-actions .hec-pd-cart-btn {
+    background: var(--e-global-color-primary, #ff7a1a);
+    border-color: var(--e-global-color-primary, #ff7a1a);
+}
+
+/* Success state (after add-to-cart) — outline style, text in the
+   secondary brand color. Uses its own class name (hec-pd-btn-added,
+   not the loop's hec-btn-added) so the two contexts can never cross. */
+.hec-pd-actions .hec-pd-cart-btn.hec-pd-btn-added {
+    background: transparent;
+    border-color: var(--e-global-color-secondary, #ec1e63);
+}
+
+.hec-pd-actions .hec-pd-btn.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* High-specificity color enforcement (ancestor class + tag + two
+   classes) so this reliably beats Elementor's own site-wide link
+   color CSS, which is printed after ours in <head> and can otherwise
+   win ties on equal specificity/!important — this fix no longer
+   depends on file load order at all. */
+.hec-pd-actions a.hec-pd-btn:link,
+.hec-pd-actions a.hec-pd-btn:visited,
+.hec-pd-actions a.hec-pd-btn:hover,
+.hec-pd-actions a.hec-pd-btn:active,
+.hec-pd-actions a.hec-pd-btn:focus {
+    color: #fff !important;
+}
+
+.hec-pd-actions a.hec-pd-cart-btn.hec-pd-btn-added:link,
+.hec-pd-actions a.hec-pd-cart-btn.hec-pd-btn-added:visited,
+.hec-pd-actions a.hec-pd-cart-btn.hec-pd-btn-added:active,
+.hec-pd-actions a.hec-pd-cart-btn.hec-pd-btn-added:focus {
+    color: var(--e-global-color-secondary, #ec1e63) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .hec-pd-actions .hec-pd-btn:hover {
+        filter: brightness(0.9);
+    }
+    .hec-pd-actions a.hec-pd-cart-btn.hec-pd-btn-added:hover {
+        filter: none;
+        background: var(--e-global-color-secondary, #ec1e63);
+        color: #fff !important;
+    }
+}
+@media (hover: none) {
+    .hec-pd-actions .hec-pd-btn:active {
+        filter: brightness(0.85);
+    }
+}
+
+.hec-pd-contact-btn:link,
+.hec-pd-contact-btn:visited,
+.hec-pd-contact-btn:hover,
+.hec-pd-contact-btn:active,
+.hec-pd-contact-btn:focus {
+    color: #fff !important;
+}
+
+.hec-pd-contact-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 10px;
+    border: 2px solid transparent;
+    transition: filter 0.2s ease;
+}
+.hec-pd-phone {
+    background: #5B8DEF;
+    border-color: #5B8DEF;
+}
+.hec-pd-whatsapp {
+    background: #25D366;
+    border-color: #25D366;
+}
+.hec-pd-messenger {
+    background: #2E90FA;
+    border-color: #2E90FA;
+}
+@media (hover: hover) and (pointer: fine) {
+    .hec-pd-contact-btn:hover {
+        filter: brightness(0.92);
+    }
+}
+
+/* Delivery info box */
+.hec-pd-delivery-box {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    background: #E4F6FA;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 14px;
+    font-size: 13px;
+    color: #1a7a8f;
+    font-weight: 600;
+}
+.hec-pd-delivery-box svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: #1a7a8f;
+}
+
+/* Hide WooCommerce's default "View cart" link everywhere it appears */
+.hec-product-actions .added_to_cart,
+.hec-pd-actions .added_to_cart {
+    display: none !important;
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 767px) {
+    .hec-product-details {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .hec-pd-title { font-size: 20px; }
+    .hec-pd-price { font-size: 20px; }
+    .hec-pd-btn { font-size: 13px; padding: 12px 4px; }
+}

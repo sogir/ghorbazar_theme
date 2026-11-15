@@ -1,0 +1,141 @@
+/* ==========================================================================
+   Category Dropdown — vertical list with icons + flyout submenus
+   Colors reference Elementor Global Colors
+   ========================================================================== */
+
+.hec-cat-dropdown {
+    width: 98%;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 0 0 8px 8px;
+    overflow: visible; /* allow submenu flyout to escape the box */
+    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06); */
+}
+
+.hec-cat-list {
+    list-style: none;
+    margin: 0;
+    padding: 6px 0;
+}
+
+.hec-cat-item {
+    position: relative;
+}
+
+.hec-cat-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    text-decoration: none;
+    color: var(--e-global-color-text, #222);
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.15s ease;
+}
+.hec-cat-item:hover > .hec-cat-link,
+.hec-cat-link:focus {
+    background: #f8f9fa;
+}
+
+.hec-cat-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.hec-cat-name {
+    flex: 1;
+}
+
+.hec-cat-arrow {
+    width: 16px;
+    height: 16px;
+    color: #999;
+    flex-shrink: 0;
+    transition: transform 0.15s ease, color 0.15s ease;
+}
+.hec-cat-item:hover > .hec-cat-link .hec-cat-arrow {
+    color: var(--e-global-color-primary, #007bff);
+}
+
+/* ------------------------------------------------------------------
+   Flyout submenu — shows on hover (desktop) to the right of the item
+   ------------------------------------------------------------------ */
+.hec-cat-submenu {
+    list-style: none;
+    margin: 0;
+    padding: 8px 0;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    min-width: 220px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    z-index: 50;
+
+    /* hidden by default */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-6px);
+    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+}
+
+/* Show on real-hover devices only (see mobile fallback below) */
+@media (hover: hover) and (pointer: fine) {
+    .hec-cat-item.has-children:hover > .hec-cat-submenu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0);
+    }
+}
+
+.hec-cat-submenu li a {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 9px 16px;
+    color: var(--e-global-color-text, #222);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+}
+.hec-cat-submenu li a:hover {
+    background: #f8f9fa;
+    color: var(--e-global-color-primary, #007bff);
+}
+.hec-cat-count {
+    color: #999;
+    font-size: 12px;
+}
+
+/* ------------------------------------------------------------------
+   Touch devices: no hover, so tap-to-toggle instead (JS adds
+   .is-open class — see category-dropdown.js)
+   ------------------------------------------------------------------ */
+@media (hover: none) {
+    .hec-cat-submenu {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        border: none;
+        border-top: 1px solid #f0f0f0;
+        border-radius: 0;
+        display: none;
+        padding-left: 12px;
+    }
+    .hec-cat-item.is-open .hec-cat-submenu {
+        display: block;
+    }
+    .hec-cat-item.has-children .hec-cat-arrow {
+        transition: transform 0.2s ease;
+    }
+    .hec-cat-item.is-open .hec-cat-arrow {
+        transform: rotate(90deg);
+    }
+}
