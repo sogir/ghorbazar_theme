@@ -42,7 +42,8 @@ add_action( 'wp_enqueue_scripts', function () {
 
     wp_localize_script( 'hec-cart-toast-js', 'hecCartToastData', [
         'checkoutUrl'  => function_exists( 'wc_get_checkout_url' ) ? wc_get_checkout_url() : home_url( '/checkout/' ),
-        'message'      => 'Added to cart. Complete your order',
-        'checkoutText' => 'Checkout',
+        'message'      => 'Added to cart!',
+        'checkoutText' => 'Checkout now',
+        'continueText' => 'Continue shopping',
     ] );
 });

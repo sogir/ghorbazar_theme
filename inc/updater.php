@@ -37,7 +37,7 @@ final class Ecomx_Theme_Updater {
         add_filter( 'upgrader_source_selection', [ $this, 'fix_folder_name' ], 10, 4 );
         add_filter( 'auto_update_theme', [ $this, 'auto_update' ], 10, 2 );
         add_action( 'upgrader_process_complete', [ $this, 'flush_cache' ], 10, 0 );
-        add_action( 'load-update-core.php', [ $this, 'maybe_force_check' ] );
+        add_action( 'load-update-core.php', [ $this, 'maybe_force_check' ], 1 ); // before core's wp_update_themes (priority 10)
         add_action( 'admin_notices', [ $this, 'admin_notice' ] );
     }
 

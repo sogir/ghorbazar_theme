@@ -1,110 +1,178 @@
 /* ==========================================================================
-   Add-to-cart toast + mini-cart icon wiggle
+   Add-to-cart popup + mini-cart icon wiggle
    ========================================================================== */
 
 .hec-cart-toast-wrap {
     position: fixed;
     z-index: 2000;
-    right: 20px;
-    bottom: 20px;
-    display: flex;
-    flex-direction: column-reverse;
-    gap: 10px;
-    max-width: 340px;
+    right: 24px;
+    bottom: 24px;
+    width: 360px;
+    max-width: calc(100vw - 24px);
     pointer-events: none;
 }
 
 .hec-cart-toast {
+    position: relative;
     pointer-events: auto;
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
+    overflow: hidden;
     background: #fff;
-    border: 1px solid #e5e5e5;
-    border-radius: 10px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    padding: 12px 12px 12px 14px;
+    border: 2px solid var(--ecx-green, #2e9e3a);
+    border-radius: 14px;
+    box-shadow: 0 18px 50px rgba(11, 90, 20, .28), 0 4px 12px rgba(0, 0, 0, .12);
+    padding: 16px 16px 18px;
     opacity: 0;
-    transform: translateY(12px);
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transform: translateY(24px) scale(.96);
 }
-.hec-cart-toast.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
+.hec-cart-toast.is-visible { animation: hec-toast-in .45s cubic-bezier(.2, 1.4, .4, 1) forwards; }
+.hec-cart-toast.is-leaving { animation: hec-toast-out .25s ease forwards; }
+@keyframes hec-toast-in  { to { opacity: 1; transform: none; } }
+@keyframes hec-toast-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(16px) scale(.97); } }
 
+/* Header: big check + "Added to cart!" */
+.hec-cart-toast-head { display: flex; align-items: center; gap: 10px; padding-right: 28px; margin-bottom: 12px; }
 .hec-cart-toast-icon {
     flex-shrink: 0;
-    width: 22px;
-    height: 22px;
-    margin-top: 1px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: #1a9c4c;
+    background: var(--ecx-green, #2e9e3a);
     color: #fff;
+    box-shadow: 0 0 0 5px rgba(46, 158, 58, .15);
+    animation: hec-toast-pop .5s .15s cubic-bezier(.2, 1.6, .4, 1) both;
 }
-.hec-cart-toast-icon svg {
-    width: 13px;
-    height: 13px;
-}
+.hec-cart-toast-icon svg { width: 17px; height: 17px; }
+@keyframes hec-toast-pop { from { transform: scale(0); } to { transform: scale(1); } }
+.hec-cart-toast-title { font-size: 18px; font-weight: 700; color: var(--ecx-brand, #0b5a14); line-height: 1.2; }
 
-.hec-cart-toast-body {
-    flex: 1;
-    min-width: 0;
+/* Product row */
+.hec-cart-toast-product {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    margin-bottom: 14px;
+    background: var(--ecx-card-bg, #f1f9f1);
+    border-radius: 10px;
 }
-.hec-cart-toast-text {
-    display: block;
-    font-size: 13px;
-    color: #222;
-    line-height: 1.5;
-    margin: 0 0 4px;
-}
-.hec-cart-toast-link {
-    display: inline-block;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--e-global-color-primary, #ff7a1a) !important;
-    text-decoration: none !important;
-}
-.hec-cart-toast-link:hover {
-    text-decoration: underline !important;
-}
-
-.hec-cart-toast-close {
+.hec-cart-toast-thumb {
     flex-shrink: 0;
-    width: 22px;
-    height: 22px;
+    width: 52px;
+    height: 52px;
+    border-radius: 8px;
+    background: #fff;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: none !important;
+}
+.hec-cart-toast-thumb img { width: 100%; height: 100%; object-fit: contain; }
+.hec-cart-toast-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ecx-text, #1f2328);
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Big checkout button */
+.hec-cart-toast-btn,
+.hec-cart-toast-btn:link,
+.hec-cart-toast-btn:visited {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 52px;
+    padding: 12px 16px;
+    border-radius: var(--ecx-btn-radius, 6px);
+    background: var(--ecx-primary, #f07400);
+    color: #fff !important;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    text-decoration: none !important;
+    box-shadow: 0 6px 16px rgba(240, 116, 0, .45);
+    animation: hec-toast-glow 1.6s ease-in-out .6s infinite;
+    transition: transform .15s ease, filter .15s ease;
+}
+.hec-cart-toast-btn svg { transition: transform .2s ease; }
+.hec-cart-toast-btn:hover { filter: brightness(.95); transform: translateY(-1px); color: #fff !important; }
+.hec-cart-toast-btn:hover svg { transform: translateX(4px); }
+.hec-cart-toast-btn:active { transform: translateY(1px); }
+@keyframes hec-toast-glow {
+    0%, 100% { box-shadow: 0 6px 16px rgba(240, 116, 0, .45), 0 0 0 0 rgba(240, 116, 0, .45); }
+    50%      { box-shadow: 0 6px 16px rgba(240, 116, 0, .45), 0 0 0 8px rgba(240, 116, 0, 0); }
+}
+
+.hec-cart-toast-continue {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px !important;
     background: none !important;
-    color: #999 !important;
-    font-size: 18px;
-    line-height: 1;
+    border: 0 !important;
+    box-shadow: none !important;
+    color: var(--ecx-muted, #6b7280) !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
     cursor: pointer;
+}
+.hec-cart-toast-continue:hover { color: var(--ecx-brand, #0b5a14) !important; text-decoration: underline; }
+
+.hec-cart-toast-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px !important;
+    height: 30px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
     padding: 0 !important;
+    border: 0 !important;
+    border-radius: 50% !important;
+    background: #f1f1f1 !important;
+    color: #666 !important;
+    font-size: 20px !important;
+    line-height: 1 !important;
+    cursor: pointer;
     box-shadow: none !important;
 }
-.hec-cart-toast-close:hover {
-    color: #333 !important;
-}
+.hec-cart-toast-close:hover { background: #e4e4e4 !important; color: #222 !important; }
+
+/* Countdown bar */
+.hec-cart-toast-timer { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: rgba(46, 158, 58, .15); }
+.hec-cart-toast-timer span { display: block; height: 100%; background: var(--ecx-green, #2e9e3a); transform-origin: left; transform: scaleX(1); }
 
 @media (max-width: 767px) {
     .hec-cart-toast-wrap {
-        left: 12px;
-        right: 12px;
-        bottom: 76px; /* clear the fixed mobile bottom nav */
+        left: 10px;
+        right: 10px;
+        width: auto;
         max-width: none;
+        bottom: 80px; /* clear the fixed mobile bottom nav */
     }
+    .hec-cart-toast { padding: 14px 14px 16px; }
+    .hec-cart-toast-title { font-size: 17px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hec-cart-toast.is-visible { animation: none; opacity: 1; transform: none; }
+    .hec-cart-toast-btn, .hec-cart-toast-icon { animation: none; }
 }
 
 /* ------------------------------------------------------------------
-   Cart icon wiggle, played once per add-to-cart. Generic on purpose
-   (not scoped to one icon's class) — cart-toast.js applies it to both
-   the header mini-cart icon(s) and the mobile bottom nav's cart icon.
+   Cart icon wiggle, played once per add-to-cart (header mini-cart and
+   the mobile bottom nav's cart icon).
    ------------------------------------------------------------------ */
 @keyframes hecCartWiggle {
     0%, 100% { transform: rotate(0deg); }
