@@ -28,10 +28,10 @@ theme updates can't overwrite them. (Optional file alternative:
    ```
    bin/release.sh patch     # or minor / major / 2.5.0
    ```
-   This bumps `Version` in style.css, commits, tags `vX.Y.Z` and pushes.
-3. GitHub Actions (`.github/workflows/release.yml`) builds
-   `ecomx-bookshop.zip` and publishes a Release.
-4. Every site running the theme sees the update and **installs it
+   This bumps `Version` in style.css, commits, tags `vX.Y.Z`, pushes,
+   builds `ecomx-bookshop.zip` and publishes it as a GitHub Release
+   (needs the GitHub CLI: `brew install gh && gh auth login`).
+3. Every site running the theme sees the update and **installs it
    automatically** (WordPress checks about every 12 hours; Dashboard →
    Updates → *Check again* to pull it immediately).
 
