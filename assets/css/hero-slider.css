@@ -266,7 +266,7 @@
 
 /* ---- Category sidebar inside the mobile bottom-nav drawer ---- */
 .hec-cat-sidebar-title { flex: 1; }
-.hec-cat-sidebar--drawer { height: 100%; border: 0; border-radius: 0; overflow-y: auto; }
+.hec-cat-sidebar--drawer { min-height: 0; border: 0; border-radius: 0; }
 .hec-cat-sidebar--drawer .hec-cat-sidebar-head { border-radius: 0; position: sticky; top: 0; z-index: 2; padding: 16px; }
 .hec-cat-sidebar--drawer .hec-catnav-close {
     width: 32px !important;
@@ -305,3 +305,26 @@
 /* Logged-in admins: keep the drawer header below the WordPress admin bar. */
 .admin-bar #hec-catnav-drawer { top: 46px; height: calc(100% - 46px); }
 @media (min-width: 783px) { .admin-bar #hec-catnav-drawer { top: 32px; height: calc(100% - 32px); } }
+
+/* Page links under the categories in the mobile drawer */
+.hec-drawer-menu { padding: 8px 0 24px; border-top: 6px solid var(--ecx-bg-soft); }
+.hec-drawer-menu__title {
+    display: block;
+    padding: 14px 16px 6px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ecx-muted);
+}
+.hec-drawer-menu__list { list-style: none; margin: 0; padding: 0; }
+.hec-drawer-menu__list a {
+    display: block;
+    padding: 12px 16px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ecx-text);
+    border-bottom: 1px solid var(--ecx-border);
+}
+.hec-drawer-menu__list a:hover,
+.hec-drawer-menu__list .current-menu-item > a { color: var(--ecx-brand); background: var(--ecx-bg-soft); }

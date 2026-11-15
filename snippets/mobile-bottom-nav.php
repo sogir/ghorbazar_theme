@@ -52,6 +52,19 @@ add_action( 'wp_footer', function () {
 
     <div class="hec-catnav-drawer" id="hec-catnav-drawer" role="dialog" aria-modal="true" aria-label="Categories">
         <?php echo do_shortcode( '[hec_category_sidebar drawer="1"]' ); ?>
+        <?php if ( has_nav_menu( 'primary' ) ) : ?>
+            <nav class="hec-drawer-menu" aria-label="Menu">
+                <span class="hec-drawer-menu__title">Menu</span>
+                <?php
+                wp_nav_menu( [
+                    'theme_location' => 'primary',
+                    'container'      => false,
+                    'menu_class'     => 'hec-drawer-menu__list',
+                    'depth'          => 1,
+                ] );
+                ?>
+            </nav>
+        <?php endif; ?>
     </div>
 
     <nav class="hec-mnav" id="hec-mnav" aria-label="Mobile navigation">
