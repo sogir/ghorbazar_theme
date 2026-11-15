@@ -565,3 +565,15 @@ add_action( 'wp_enqueue_scripts', function () {
         'homeUrl' => home_url( '/' ),
     ] );
 });
+
+/**
+ * Checkout errors: WooCommerce prefixes field names with "Billing"
+ * ("Billing Your name is a required field."). This checkout only has
+ * one set of fields, so drop the prefix.
+ */
+add_filter( 'woocommerce_checkout_required_field_notice', function ( $notice ) {
+    return str_replace( [ '>Billing ', 'Billing ' ], [ '>', '' ], $notice );
+} );
+add_filter( 'woocommerce_add_error', function ( $message ) {
+    return is_string( $message ) ? preg_replace( '/(<strong>)?Billing (?=[A-Z])/', '$1', $message ) : $message;
+} );
