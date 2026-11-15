@@ -113,7 +113,7 @@ if ( $hec_mess ) {
                             ] );
                         } else {
                             $links = [];
-                            foreach ( [ 'track-order' => 'Track Order', 'contact' => 'Contact Us', 'refund_returns' => 'Refund & Returns' ] as $slug => $label ) {
+                            foreach ( [ 'track-order' => 'Track Order', 'contact' => 'Contact Us', 'about' => 'About Us', 'refund_returns' => 'Refund & Returns', 'privacy-policy' => 'Privacy Policy' ] as $slug => $label ) {
                                 $p = get_page_by_path( $slug );
                                 if ( $p ) $links[ get_permalink( $p ) ] = $label;
                             }
@@ -152,15 +152,15 @@ if ( $hec_mess ) {
 
     <div class="ecx-footer-bottom">
         <div class="container ecx-footer-bottom__inner">
-            <p class="ecx-footer-copy">&copy; <?php echo esc_html( wp_date( 'Y' ) ); ?> <?php echo esc_html( $hec_copy ); ?></p>
-            <nav class="ecx-footer-legal" aria-label="Legal">
+            <p class="ecx-footer-copy">
+                &copy; <?php echo esc_html( wp_date( 'Y' ) ); ?> <?php echo esc_html( $hec_copy ); ?>
                 <?php
-                foreach ( [ 'about' => 'About Us', 'privacy-policy' => 'Privacy Policy' ] as $slug => $label ) {
-                    $p = get_page_by_path( $slug );
-                    if ( $p ) echo '<a href="' . esc_url( get_permalink( $p ) ) . '">' . esc_html( $label ) . '</a>';
+                $hec_credit = apply_filters( 'ecomx_footer_credit', 'Developed by <a href="https://wemax.site" target="_blank" rel="noopener">Wemax</a>' );
+                if ( $hec_credit ) {
+                    echo '<span class="ecx-footer-credit">' . wp_kses( $hec_credit, [ 'a' => [ 'href' => [], 'target' => [], 'rel' => [] ] ] ) . '</span>';
                 }
                 ?>
-            </nav>
+            </p>
             <div class="ecx-footer-pay">
                 <span class="ecx-footer-pay__label">We accept</span>
                 <span class="ecx-pay-badge"><?php echo hec_footer_icon( 'cash' ); // phpcs:ignore ?> Cash on Delivery</span>

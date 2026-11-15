@@ -142,9 +142,9 @@
     padding-bottom: 16px;
 }
 .ecx-footer-copy { margin: 0; color: #a9c7ad; }
-.ecx-footer-legal { display: flex; gap: 20px; margin-right: auto; margin-left: 28px; }
-.ecx-footer-legal a { color: #a9c7ad; }
-.ecx-footer-legal a:hover { color: #fff; }
+.ecx-footer-credit { margin-left: 14px; padding-left: 14px; border-left: 1px solid rgba(255, 255, 255, .2); }
+.ecx-footer-credit a { color: #fff; font-weight: 700; }
+.ecx-footer-credit a:hover { color: var(--ecx-primary); }
 .ecx-footer-pay { display: flex; align-items: center; gap: 10px; }
 .ecx-footer-pay__label { color: #a9c7ad; }
 .ecx-pay-badge {
@@ -181,5 +181,5 @@
 
     .ecx-footer-bottom { padding-bottom: 72px; } /* room for the mobile bottom nav */
     .ecx-footer-bottom__inner { flex-direction: column; text-align: center; gap: 10px; }
-    .ecx-footer-legal { margin: 0; justify-content: center; }
+    .ecx-footer-credit { display: block; margin: 6px 0 0; padding: 0; border: 0; }
 }
