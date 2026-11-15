@@ -17,15 +17,7 @@ $hec_hours    = get_theme_mod( 'hec_footer_hours', '' );
 $hec_about    = get_theme_mod( 'hec_footer_about', 'Original gadgets and electronics with cash on delivery all over Bangladesh.' );
 $hec_copy     = get_theme_mod( 'hec_footer_copyright', get_bloginfo( 'name' ) . '. All rights reserved.' );
 
-$hec_inside  = defined( 'HEC_DELIVERY_INSIDE_DHAKA' ) ? HEC_DELIVERY_INSIDE_DHAKA : '';
-$hec_outside = defined( 'HEC_DELIVERY_OUTSIDE_DHAKA' ) ? HEC_DELIVERY_OUTSIDE_DHAKA : '';
-
-$hec_features = [
-    [ 'cash', 'Cash on Delivery', 'Pay when you receive your order' ],
-    [ 'truck', 'Delivery All Over BD', $hec_inside && $hec_outside ? "Inside Dhaka {$hec_inside} · Outside {$hec_outside}" : 'Fast delivery across Bangladesh' ],
-    [ 'shield', '100% Original', 'Genuine, brand-new products' ],
-    [ 'headset', 'Easy Ordering', $hec_phone ? "Call or WhatsApp {$hec_phone}" : 'Order online, by phone or WhatsApp' ],
-];
+$hec_features = hec_store_features();
 
 $hec_socials = [];
 foreach ( hec_footer_social_networks() as $key => $label ) {

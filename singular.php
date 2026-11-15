@@ -21,7 +21,9 @@ if ( ! hec_elementor_location( 'single' ) ) :
                 // Hide the title on the front page, on Elementor pages and on WooCommerce pages that render their own headings.
                 $hec_hide_title = $hec_is_elementor || is_front_page()
                     || ( function_exists( 'is_checkout' ) && ( is_checkout() || is_cart() ) );
-                if ( ! $hec_hide_title ) :
+                if ( ! $hec_hide_title && is_page() ) :
+                    get_template_part( 'template-parts/page-hero' );
+                elseif ( ! $hec_hide_title ) :
                     ?>
                     <header class="entry-header">
                         <?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
