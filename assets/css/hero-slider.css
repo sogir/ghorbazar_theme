@@ -205,7 +205,7 @@
 
 @media (max-width: 767px) {
     .hec-home-hero { grid-template-columns: minmax(0, 1fr); gap: 0; margin-bottom: 12px; }
-    .hec-cat-sidebar { display: none; }
+    .hec-home-hero .hec-cat-sidebar { display: none; }
     .hec-slider { min-height: 220px; border-radius: 10px; }
     .hec-slide--banner { padding: 0 0 24px; }
     .hec-slide {
@@ -262,3 +262,45 @@
     .hec-slide, .hec-slider-dot { transition: none; }
     .hec-slide.is-active .hec-slide-media img { animation: none; }
 }
+
+/* ---- Category sidebar inside the mobile bottom-nav drawer ---- */
+.hec-cat-sidebar-title { flex: 1; }
+.hec-cat-sidebar--drawer { height: 100%; border: 0; border-radius: 0; overflow-y: auto; }
+.hec-cat-sidebar--drawer .hec-cat-sidebar-head { border-radius: 0; position: sticky; top: 0; z-index: 2; padding: 16px; }
+.hec-cat-sidebar--drawer .hec-catnav-close {
+    width: 32px !important;
+    height: 32px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--ecx-btn-radius) !important;
+    background: rgba(255, 255, 255, .18) !important;
+    color: #fff !important;
+    font-size: 22px !important;
+    line-height: 1 !important;
+    box-shadow: none !important;
+}
+.hec-cat-sidebar--drawer .hec-cat-link { padding: 13px 16px; font-size: 15px; border-bottom: 1px solid var(--ecx-border); }
+.hec-cat-sidebar--drawer .hec-cat-icon { width: 34px; height: 34px; }
+/* Subcategories open inline (tap to expand) instead of flying out. */
+.hec-cat-sidebar--drawer .hec-cat-submenu {
+    position: static;
+    display: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    min-width: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 4px 0 8px 46px;
+    background: var(--ecx-bg-soft);
+}
+.hec-cat-sidebar--drawer .hec-cat-item.is-open > .hec-cat-submenu { display: block; }
+.hec-cat-sidebar--drawer .hec-cat-item.is-open > .hec-cat-link .hec-cat-arrow { transform: rotate(90deg); color: var(--ecx-primary); }
+.hec-cat-sidebar--drawer .hec-cat-arrow { transition: transform .2s ease; }
+#hec-catnav-drawer { padding: 0; }
+/* Logged-in admins: keep the drawer header below the WordPress admin bar. */
+.admin-bar #hec-catnav-drawer { top: 46px; height: calc(100% - 46px); }
+@media (min-width: 783px) { .admin-bar #hec-catnav-drawer { top: 32px; height: calc(100% - 32px); } }

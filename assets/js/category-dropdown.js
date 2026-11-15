@@ -8,11 +8,11 @@
 
     document.addEventListener('DOMContentLoaded', function () {
         var isTouch = window.matchMedia('(hover: none)').matches;
-        if (!isTouch) {
-            return;
-        }
 
-        var items = document.querySelectorAll('.hec-cat-item.has-children');
+        // Inside the mobile bottom-nav drawer, always tap-to-expand; elsewhere only on touch devices.
+        var items = document.querySelectorAll(isTouch
+            ? '.hec-cat-item.has-children'
+            : '.hec-cat-sidebar--drawer .hec-cat-item.has-children');
 
         items.forEach(function (item) {
             var link = item.querySelector('.hec-cat-link');

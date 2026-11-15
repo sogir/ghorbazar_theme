@@ -44,45 +44,14 @@ add_action( 'wp_footer', function () {
         return;
     }
 
-    $categories = get_terms( [
-        'taxonomy'   => 'product_cat',
-        'hide_empty' => true,
-        'parent'     => 0,
-        'exclude'    => [ get_option( 'default_product_cat' ) ],
-    ] );
-
     $is_checkout_page = function_exists( 'is_checkout' ) && is_checkout();
     $cart_count       = WC()->cart ? WC()->cart->get_cart_contents_count() : 0;
     $whatsapp_url     = defined( 'HEC_WHATSAPP_NUMBER' ) ? 'https://wa.me/' . esc_attr( HEC_WHATSAPP_NUMBER ) : '';
     ?>
     <div class="hec-catnav-backdrop" id="hec-catnav-backdrop"></div>
 
-    <div class="hec-catnav-drawer" id="hec-catnav-drawer">
-        <div class="hec-catnav-header">
-            <span>Categories</span>
-            <button type="button" class="hec-catnav-close" id="hec-catnav-close" aria-label="Close categories">&times;</button>
-        </div>
-
-        <?php if ( ! empty( $categories ) && ! is_wp_error( $categories ) ) : ?>
-            <div class="hec-catnav-list">
-                <?php foreach ( $categories as $cat ) :
-                    $thumbnail_id = get_term_meta( $cat->term_id, 'thumbnail_id', true );
-                    $image_url    = $thumbnail_id
-                        ? wp_get_attachment_image_url( $thumbnail_id, 'thumbnail' )
-                        : wc_placeholder_img_src( 'thumbnail' );
-                    ?>
-                    <a href="<?php echo esc_url( get_term_link( $cat ) ); ?>" class="hec-catnav-link">
-                        <span class="hec-catnav-link-main">
-                            <img src="<?php echo esc_url( $image_url ); ?>" alt="" class="hec-catnav-icon">
-                            <span><?php echo esc_html( $cat->name ); ?></span>
-                        </span>
-                        <span class="hec-catnav-count">(<?php echo (int) $cat->count; ?>)</span>
-                    </a>
-                <?php endforeach; ?>
-            </div>
-        <?php else : ?>
-            <p class="hec-catnav-empty">No categories found.</p>
-        <?php endif; ?>
+    <div class="hec-catnav-drawer" id="hec-catnav-drawer" role="dialog" aria-modal="true" aria-label="Categories">
+        <?php echo do_shortcode( '[hec_category_sidebar drawer="1"]' ); ?>
     </div>
 
     <nav class="hec-mnav" id="hec-mnav" aria-label="Mobile navigation">
@@ -121,6 +90,8 @@ add_action( 'wp_enqueue_scripts', function () {
     if ( ! hec_mobile_bottom_nav_should_render() ) {
         return;
     }
+
+    wp_enqueue_style( 'hec-hero-slider' ); // category sidebar styles (used inside the drawer)
 
     wp_enqueue_style(
         'hec-mobile-bottom-nav',

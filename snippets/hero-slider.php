@@ -231,14 +231,17 @@ add_shortcode( 'hec_hero_slider', function () {
 } );
 
 add_shortcode( 'hec_category_sidebar', function ( $atts ) {
-    $atts = shortcode_atts( [ 'title' => 'All Categories', 'limit' => 12 ], $atts, 'hec_category_sidebar' );
+    $atts = shortcode_atts( [ 'title' => 'All Categories', 'limit' => 12, 'drawer' => '' ], $atts, 'hec_category_sidebar' );
     wp_enqueue_style( 'hec-hero-slider' );
     ob_start();
     ?>
-    <aside class="hec-cat-sidebar">
+    <aside class="hec-cat-sidebar<?php echo $atts['drawer'] ? ' hec-cat-sidebar--drawer' : ''; ?>">
         <div class="hec-cat-sidebar-head">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-            <?php echo esc_html( $atts['title'] ); ?>
+            <span class="hec-cat-sidebar-title"><?php echo esc_html( $atts['title'] ); ?></span>
+            <?php if ( $atts['drawer'] ) : ?>
+                <button type="button" class="hec-catnav-close" id="hec-catnav-close" aria-label="Close categories">&times;</button>
+            <?php endif; ?>
         </div>
         <?php echo do_shortcode( '[hec_category_dropdown limit="' . (int) $atts['limit'] . '" orderby="menu_order"]' ); ?>
         <?php if ( function_exists( 'wc_get_page_permalink' ) ) : ?>
