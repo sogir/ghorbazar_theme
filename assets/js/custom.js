@@ -1,5 +1,5 @@
 /**
- * Ecomx Bookshop — Custom JS
+ * Wemax Gadgets — Custom JS
  * Site-wide custom scripts.
  */
 (function () {

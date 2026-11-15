@@ -1,5 +1,5 @@
 /**
- * Ecomx Bookshop — base theme JS (mobile menu toggle).
+ * Wemax Gadgets — base theme JS (mobile menu toggle).
  */
 (function () {
     'use strict';

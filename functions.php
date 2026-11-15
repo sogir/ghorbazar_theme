@@ -1,6 +1,6 @@
 <?php
 /**
- * Ecomx Bookshop — functions.php
+ * Wemax Gadgets — functions.php
  *
  * Standalone parent theme. Everything store-specific lives in /snippets/
  * (auto-loaded) and per-site values in config.php. A child theme can

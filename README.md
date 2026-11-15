@@ -12,7 +12,7 @@ and Elementor. No parent theme required. All store features live in
 
 ## Install
 1. Copy this folder to `wp-content/themes/`.
-2. Appearance → Themes → activate **Ecomx Bookshop**.
+2. Appearance → Themes → activate **Wemax Gadgets**.
 3. Appearance → Customize → **Store Details**: phone, WhatsApp, Messenger, delivery charges.
 4. Appearance → Customize → **Homepage Slider** and **Footer**.
 5. Appearance → Menus: assign **Primary Menu** and **Footer Menu**.
