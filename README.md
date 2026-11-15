@@ -1,4 +1,4 @@
-# Ecomx Bookshop
+# Wemax Gadgets
 
 A standalone (parent) WordPress theme for online stores running WooCommerce
 and Elementor. No parent theme required. All store features live in

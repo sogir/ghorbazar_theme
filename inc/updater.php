@@ -134,7 +134,7 @@ final class Ecomx_Theme_Updater {
         $why = get_site_option( 'ecomx_theme_update_error' );
         if ( $why ) {
             printf(
-                '<div class="notice notice-warning"><p><strong>Ecomx Bookshop updates:</strong> %s</p></div>',
+                '<div class="notice notice-warning"><p><strong>Wemax Gadgets updates:</strong> %s</p></div>',
                 esc_html( $why )
             );
         }
