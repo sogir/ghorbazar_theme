@@ -38,6 +38,7 @@ final class Ecomx_Theme_Updater {
         add_filter( 'auto_update_theme', [ $this, 'auto_update' ], 10, 2 );
         add_action( 'upgrader_process_complete', [ $this, 'flush_cache' ], 10, 0 );
         add_action( 'load-update-core.php', [ $this, 'maybe_force_check' ] );
+        add_action( 'admin_notices', [ $this, 'admin_notice' ] );
     }
 
     private function resolve_repo() {
@@ -100,9 +101,43 @@ final class Ecomx_Theme_Updater {
             ];
         }
 
+        // Remember why a check failed, for the admin notice.
+        if ( $release ) {
+            delete_site_option( 'ecomx_theme_update_error' );
+        } else {
+            $code = is_wp_error( $res ) ? 0 : (int) wp_remote_retrieve_response_code( $res );
+            if ( is_wp_error( $res ) ) {
+                $why = 'Could not connect to GitHub (' . $res->get_error_message() . ').';
+            } elseif ( in_array( $code, [ 401, 403, 404 ], true ) ) {
+                $why = $this->token()
+                    ? "GitHub refused the token (HTTP {$code}). Check ECOMX_GITHUB_TOKEN in wp-config.php: it may be expired, or lack read access to {$this->repo}."
+                    : "The repository {$this->repo} is private or not found (HTTP {$code}). Add define( 'ECOMX_GITHUB_TOKEN', '…' ); to wp-config.php.";
+            } else {
+                $why = "GitHub returned HTTP {$code} or no release yet.";
+            }
+            update_site_option( 'ecomx_theme_update_error', $why );
+        }
+
         // Cache failures briefly so a GitHub hiccup doesn't hammer the API.
         set_site_transient( self::CACHE_KEY, $release, $release ? 6 * HOUR_IN_SECONDS : 30 * MINUTE_IN_SECONDS );
         return $release;
+    }
+
+    /**
+     * Tell admins (Themes / Updates / Dashboard screens) when update checks fail.
+     */
+    public function admin_notice() {
+        $screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+        if ( ! current_user_can( 'update_themes' ) || ! $screen || ! in_array( $screen->id, [ 'themes', 'update-core', 'dashboard' ], true ) ) {
+            return;
+        }
+        $why = get_site_option( 'ecomx_theme_update_error' );
+        if ( $why ) {
+            printf(
+                '<div class="notice notice-warning"><p><strong>Ecomx Bookshop updates:</strong> %s</p></div>',
+                esc_html( $why )
+            );
+        }
     }
 
     public function inject_update( $transient ) {
