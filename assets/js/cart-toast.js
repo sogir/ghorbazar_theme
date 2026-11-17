@@ -41,8 +41,9 @@
             info.img = $card.find('.hec-product-image img').first().attr('src') || '';
             return info;
         }
-        // Single product page.
-        info.name = $.trim($('.hec-pd-title').first().text()) || $.trim($('h1').first().text());
+        // Single product page (variable products: name includes the chosen option).
+        info.name = $.trim($button.attr('data-hec-toast-name') || '') ||
+            $.trim($('.hec-pd-title').first().text()) || $.trim($('h1').first().text());
         var $img = $('.hec-pd-main-image img, .hec-pd-gallery img, .woocommerce-product-gallery img').first();
         info.img = $img.attr('src') || '';
         return info;

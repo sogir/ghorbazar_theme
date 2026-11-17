@@ -147,7 +147,10 @@ function hec_render_order_tracker() {
                         $status_label = $status_map[ $status ] ?? ucfirst( str_replace( '-', ' ', $status ) );
 
                         $items      = $order->get_items();
-                        $item_names = array_map( fn( $item ) => $item->get_name(), $items );
+                        $item_names = array_map( function ( $item ) {
+                            $opts = hec_order_item_options_text( $item );
+                            return $item->get_name() . ( $opts ? ' (' . $opts . ')' : '' );
+                        }, $items );
                         $items_str  = implode( ', ', array_slice( $item_names, 0, 3 ) );
                         if ( count( $item_names ) > 3 ) {
                             $extra      = count( $item_names ) - 3;

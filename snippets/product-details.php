@@ -36,13 +36,17 @@ add_shortcode( 'hec_product_details', function () {
         }, $attachment_ids );
     }
 
+    // ---- Variable product (choice options like Color / Size)? ----
+    $is_variable = $product->is_type( 'variable' ) && $product->get_children();
+
     // ---- Discount pill (shown next to price, not on the image) ----
+    // Variable products: "Up to X% OFF" until an option is chosen, then the
+    // picker script swaps in that option's own discount.
+    $percent       = hec_product_discount_percent( $product );
     $discount_html = '';
-    if ( $product->is_on_sale() && $product->get_regular_price() ) {
-        $regular = (float) $product->get_regular_price();
-        $sale    = (float) $product->get_sale_price();
-        $percent = $regular > 0 ? round( ( ( $regular - $sale ) / $regular ) * 100 ) : 0;
-        $discount_html = '<span class="hec-pd-discount-pill">' . esc_html( $percent ) . '% OFF</span>';
+    if ( $percent > 0 || $is_variable ) {
+        $discount_html = '<span class="hec-pd-discount-pill"' . ( $percent > 0 ? '' : ' hidden' ) . '>'
+            . ( $is_variable && $percent > 0 ? 'Up to ' : '' ) . esc_html( $percent ) . '% OFF</span>';
     }
 
     // ---- Free delivery badge (shared with the product loop) ----
@@ -61,7 +65,10 @@ add_shortcode( 'hec_product_details', function () {
     $product_price = $product->get_price();
     $product_url   = get_permalink( $product->get_id() );
 
-    $order_message = "🛒 {$product_name} - {$product_price} TK\n{$product_url}\n\nI would like to order this.";
+    // Variable products: the picker script adds the chosen option + its price.
+    $order_message = $is_variable
+        ? "🛒 {$product_name}\n{$product_url}\n\nI would like to order this."
+        : "🛒 {$product_name} - {$product_price} TK\n{$product_url}\n\nI would like to order this.";
 
     $whatsapp_url = defined( 'HEC_WHATSAPP_NUMBER' )
         ? 'https://api.whatsapp.com/send?phone=' . esc_attr( HEC_WHATSAPP_NUMBER ) . '&text=' . rawurlencode( $order_message )
@@ -73,7 +80,10 @@ add_shortcode( 'hec_product_details', function () {
 
     ob_start();
     ?>
-    <div class="hec-product-details">
+    <div class="hec-product-details<?php echo $is_variable ? ' hec-pd-is-variable' : ''; ?>"
+         data-product-id="<?php echo esc_attr( $product->get_id() ); ?>"
+         data-product-name="<?php echo esc_attr( $product_name ); ?>"
+         data-product-url="<?php echo esc_url( $product_url ); ?>">
 
                         <div class="hec-pd-gallery-card">
             <div class="hec-pd-gallery">
@@ -122,9 +132,11 @@ add_shortcode( 'hec_product_details', function () {
                 <?php echo $free_delivery_html; ?>
             </div>
 
-            <?php if ( $product->get_sku() ) : ?>
-                <div class="hec-pd-sku">Product code: <?php echo esc_html( $product->get_sku() ); ?></div>
+            <?php if ( $product->get_sku() || $is_variable ) : ?>
+                <div class="hec-pd-sku" data-default-sku="<?php echo esc_attr( $product->get_sku() ); ?>"<?php echo $product->get_sku() ? '' : ' hidden'; ?>>Product code: <span class="hec-pd-sku-value"><?php echo esc_html( $product->get_sku() ); ?></span></div>
             <?php endif; ?>
+
+            <?php if ( $is_variable ) hec_render_variation_picker( $product ); ?>
 
                         <div class="hec-pd-qty-row">
                 <span class="hec-pd-qty-label">Quantity :</span>
@@ -135,22 +147,30 @@ add_shortcode( 'hec_product_details', function () {
                 </div>
             </div>
 
+            <?php
+            // Simple products: WooCommerce's own AJAX add-to-cart.
+            // Variable products: product-details.js posts the chosen
+            // variation to wc-ajax=hec_add_to_cart (see variable-products.php).
+            $btn_href  = $is_variable ? $product_url : $product->add_to_cart_url();
+            $btn_class = $is_variable ? 'hec-pd-btn add_to_cart_button is-disabled' : 'hec-pd-btn ajax_add_to_cart add_to_cart_button';
+            $btn_extra = $is_variable ? ' data-hec-variable="1" aria-disabled="true"' : '';
+            ?>
             <div class="hec-pd-actions">
-                <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>"
+                <a href="<?php echo esc_url( $btn_href ); ?>"
                    data-quantity="1"
                    data-product_id="<?php echo esc_attr( $product->get_id() ); ?>"
-                   data-hec-role="order"
-                   class="hec-pd-btn hec-pd-order-btn ajax_add_to_cart add_to_cart_button"
+                   data-hec-role="order"<?php echo $btn_extra; ?>
+                   class="<?php echo esc_attr( $btn_class ); ?> hec-pd-order-btn"
                    rel="nofollow">
                     <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M6 6h15l-1.5 9h-12L6 6zm0 0L5 3H2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="20" r="1" fill="currentColor"/><circle cx="18" cy="20" r="1" fill="currentColor"/></svg>
                     Order now
                 </a>
 
-                <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>"
+                <a href="<?php echo esc_url( $btn_href ); ?>"
                    data-quantity="1"
                    data-product_id="<?php echo esc_attr( $product->get_id() ); ?>"
-                   data-hec-role="cart"
-                   class="hec-pd-btn hec-pd-cart-btn ajax_add_to_cart add_to_cart_button"
+                   data-hec-role="cart"<?php echo $btn_extra; ?>
+                   class="<?php echo esc_attr( $btn_class ); ?> hec-pd-cart-btn"
                    rel="nofollow">
                     <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M6 6h15l-1.5 9h-12L6 6zm0 0L5 3H2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="20" r="1" fill="currentColor"/><circle cx="18" cy="20" r="1" fill="currentColor"/></svg>
                     Add to cart

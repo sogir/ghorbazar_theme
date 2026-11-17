@@ -252,7 +252,12 @@ function hec_render_thankyou_page() {
                             <?php if ( $product ) : ?>
                                 <?php echo $product->get_image( [ 44, 44 ] ); ?>
                             <?php endif; ?>
-                            <span class="hec-thankyou-item-name"><?php echo esc_html( $item->get_name() ); ?> × <?php echo (int) $item->get_quantity(); ?></span>
+                            <span class="hec-thankyou-item-name"><?php echo esc_html( $item->get_name() ); ?> × <?php echo (int) $item->get_quantity(); ?>
+                                <?php $hec_opts = hec_order_item_options_text( $item ); ?>
+                                <?php if ( $hec_opts ) : ?>
+                                    <small class="hec-item-options"><?php echo esc_html( $hec_opts ); ?></small>
+                                <?php endif; ?>
+                            </span>
                             <span class="hec-thankyou-item-price"><?php echo wp_kses_post( $order->get_formatted_line_subtotal( $item ) ); ?></span>
                         </div>
                     <?php endforeach; ?>
@@ -393,7 +398,12 @@ function hec_render_order_summary_table( $show_disclaimer = true ) {
                         <div class="hec-co-cell hec-co-col-product">
                             <div class="hec-co-prod-inner">
                                 <?php echo $product->get_image( [ 40, 40 ] ); ?>
-                                <span class="hec-co-prod-name"><?php echo esc_html( wp_trim_words( $product->get_name(), 8 ) ); ?></span>
+                                <span class="hec-co-prod-name"><?php echo esc_html( wp_trim_words( $product->get_name(), 8 ) ); ?>
+                                    <?php $hec_opts = hec_cart_item_options_text( $cart_item ); ?>
+                                    <?php if ( $hec_opts ) : ?>
+                                        <small class="hec-item-options"><?php echo esc_html( $hec_opts ); ?></small>
+                                    <?php endif; ?>
+                                </span>
                             </div>
                         </div>
                         <div class="hec-co-cell hec-co-col-qty">

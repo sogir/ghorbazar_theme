@@ -59,6 +59,10 @@ function hec_render_mini_cart_panel() {
                             <a href="<?php echo esc_url( $product->get_permalink( $cart_item ) ); ?>" class="hec-mini-cart-item-name">
                                 <?php echo esc_html( wp_trim_words( $product->get_name(), 6 ) ); ?>
                             </a>
+                            <?php $hec_opts = hec_cart_item_options_text( $cart_item ); ?>
+                            <?php if ( $hec_opts ) : ?>
+                                <span class="hec-item-options"><?php echo esc_html( $hec_opts ); ?></span>
+                            <?php endif; ?>
                             <span class="hec-mini-cart-item-qty">Qty: <?php echo (int) $cart_item['quantity']; ?></span>
                         </div>
 

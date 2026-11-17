@@ -227,3 +227,14 @@ button:hover, .button:hover, input[type="submit"]:hover { background: var(--ecx-
     .ecomx-shop-sidebar { position: static; }
 }
 .ecomx-single-product > * + * { margin-top: 40px; }
+
+/* Chosen product options (e.g. "Color: Grey") under item names in the
+   mini cart, cart, checkout and thank-you page. */
+.hec-item-options {
+    display: block;
+    margin-top: 2px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--ecx-muted, #6b7280);
+}

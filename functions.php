@@ -149,6 +149,11 @@ add_action( 'wp_enqueue_scripts', function () {
 
     wp_enqueue_style( 'hec-product-details', $uri . '/assets/css/product-details.css', [ 'ecomx-style' ], $v );
     wp_enqueue_script( 'hec-product-details-js', $uri . '/assets/js/product-details.js', [ 'jquery' ], $v, true );
+    if ( class_exists( 'WC_AJAX' ) ) {
+        wp_localize_script( 'hec-product-details-js', 'hecVariationData', [
+            'ajaxUrl' => WC_AJAX::get_endpoint( 'hec_add_to_cart' ),
+        ] );
+    }
 
     wp_enqueue_style( 'hec-product-extras', $uri . '/assets/css/product-extras.css', [ 'ecomx-style', 'hec-product-loop' ], $v );
 

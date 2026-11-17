@@ -229,6 +229,104 @@
     clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 50%, 100% 100%, 0 100%);
 }
 
+/* Hidden by the variation picker until an option has its own value
+   (author display rules would otherwise beat the [hidden] attribute). */
+.hec-pd-sku[hidden],
+.hec-pd-discount-pill[hidden] {
+    display: none !important;
+}
+
+/* ---------------- Variation picker (Color / Size …) ----------------
+   Chips reset with high specificity + !important, same as the quantity
+   buttons, so Elementor/global button styles can't restyle them. */
+.hec-pd-variations {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+.hec-pd-var-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+.hec-pd-var-current {
+    font-weight: 500;
+    color: var(--ecx-muted, #6b7280);
+}
+.hec-pd-var-row.is-missing .hec-pd-var-label {
+    color: var(--ecx-accent, #ef4b4b);
+}
+.hec-pd-var-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.hec-pd-var-options button.hec-pd-opt {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 48px !important;
+    min-height: 38px !important;
+    margin: 0 !important;
+    padding: 7px 16px !important;
+    border: 1.5px solid #d6dbd6 !important;
+    border-radius: var(--ecx-btn-radius, 6px) !important;
+    background: #fff !important;
+    color: #222 !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    line-height: 1.2 !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    box-shadow: none !important;
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+.hec-pd-var-options button.hec-pd-opt:hover {
+    border-color: var(--e-global-color-primary, #ff7a1a) !important;
+}
+.hec-pd-var-options button.hec-pd-opt:focus-visible {
+    outline: 2px solid var(--e-global-color-primary, #ff7a1a) !important;
+    outline-offset: 2px !important;
+}
+.hec-pd-var-options button.hec-pd-opt.is-selected {
+    border-color: var(--e-global-color-primary, #ff7a1a) !important;
+    background: var(--e-global-color-primary, #ff7a1a) !important;
+    color: #fff !important;
+    font-weight: 600 !important;
+}
+.hec-pd-var-options button.hec-pd-opt.is-unavailable {
+    color: #9ca3af !important;
+    border-style: dashed !important;
+    text-decoration: line-through !important;
+}
+.hec-pd-var-options button.hec-pd-opt.is-unavailable.is-selected {
+    background: #f3f4f6 !important;
+    border-color: #9ca3af !important;
+}
+.hec-pd-var-row.is-missing button.hec-pd-opt {
+    border-color: var(--ecx-accent, #ef4b4b) !important;
+}
+.hec-pd-var-msg:empty {
+    display: none;
+}
+.hec-pd-var-msg {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ecx-green, #2e9e3a);
+}
+.hec-pd-var-msg.is-error {
+    color: var(--ecx-accent, #ef4b4b);
+}
+
+/* Buttons wait for a complete choice (still clickable: shows a hint). */
+.hec-pd-actions .hec-pd-btn.is-disabled {
+    opacity: 0.55;
+}
+
 /* Quantity — plain text +/- glyphs, forced styling beats any
    theme/Elementor global button reset via high-specificity + !important */
 .hec-pd-qty-row {

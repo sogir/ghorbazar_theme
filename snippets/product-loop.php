@@ -69,11 +69,8 @@ function hec_render_product_card() {
     ?>
     <div class="hec-product-card">
 
-        <?php if ( $product->is_on_sale() && $product->get_regular_price() ) :
-            $regular = (float) $product->get_regular_price();
-            $sale    = (float) $product->get_sale_price();
-            $percent = $regular > 0 ? round( ( ( $regular - $sale ) / $regular ) * 100 ) : 0;
-            ?>
+        <?php $percent = hec_product_discount_percent( $product ); ?>
+        <?php if ( $percent > 0 ) : ?>
             <div class="hec-sale-badge">
                 <?php echo esc_html( $percent ); ?>%
             </div>
@@ -96,21 +93,42 @@ function hec_render_product_card() {
 
         <div class="hec-product-actions">
 
-            <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>"
-               data-quantity="1"
-               data-product_id="<?php echo esc_attr( $product->get_id() ); ?>"
-               class="hec-btn hec-btn-cart ajax_add_to_cart add_to_cart_button"
-               rel="nofollow">
-                Add to cart
-            </a>
+            <?php if ( hec_product_has_inline_buy( $product ) ) : ?>
 
-            <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>"
-               data-quantity="1"
-               data-product_id="<?php echo esc_attr( $product->get_id() ); ?>"
-               class="hec-btn hec-btn-order ajax_add_to_cart add_to_cart_button hec-order-now"
-               rel="nofollow">
-                Order now
-            </a>
+                <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>"
+                   data-quantity="1"
+                   data-product_id="<?php echo esc_attr( $product->get_id() ); ?>"
+                   class="hec-btn hec-btn-cart ajax_add_to_cart add_to_cart_button"
+                   rel="nofollow">
+                    Add to cart
+                </a>
+
+                <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>"
+                   data-quantity="1"
+                   data-product_id="<?php echo esc_attr( $product->get_id() ); ?>"
+                   class="hec-btn hec-btn-order ajax_add_to_cart add_to_cart_button hec-order-now"
+                   rel="nofollow">
+                    Order now
+                </a>
+
+            <?php else :
+                // Variable (Color / Size …), grouped or external products:
+                // options are chosen on the product page, so both buttons go there.
+                $choose_url = $product->is_type( 'external' ) ? $product->add_to_cart_url() : get_permalink();
+                ?>
+
+                <a href="<?php echo esc_url( $choose_url ); ?>"
+                   class="hec-btn hec-btn-cart hec-btn-options"
+                   <?php echo $product->is_type( 'external' ) ? 'target="_blank" rel="noopener"' : ''; ?>>
+                    <?php echo esc_html( $product->is_type( 'variable' ) ? 'Select options' : $product->add_to_cart_text() ); ?>
+                </a>
+
+                <a href="<?php echo esc_url( get_permalink() ); ?>"
+                   class="hec-btn hec-btn-order hec-btn-options">
+                    Order now
+                </a>
+
+            <?php endif; ?>
 
         </div>
 
